@@ -9,248 +9,312 @@
 require "system/newdb.php";
 $db = new newdb();
 $sql = "
-CREATE TABLE attendance
+create table fms.attendance
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	Dept_ID VARCHAR(6) NULL,
-	CourseID VARCHAR(6) NULL,
-	Att_ID VARCHAR(6) NULL,
-	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	LecID VARCHAR(6) NULL,
-	Attendance TEXT NULL,
-	CONSTRAINT attendance_Att_ID_uindex
-		UNIQUE (Att_ID)
+	ID int not null auto_increment
+		primary key,
+	Dept_ID varchar(6) null,
+	Att_ID varchar(6) null,
+	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
+	LecID varchar(6) null,
+	Attendance text null,
+	UnitID varchar(6) null,
+	constraint attendance_Att_ID_uindex
+		unique (Att_ID)
 )
 ;
 
-CREATE TABLE course_outlines
+create table fms.comments
 (
-	course_id VARCHAR(100) NOT NULL
-		PRIMARY KEY,
-	course_topics VARCHAR(100) NOT NULL,
-	lec_id INT NOT NULL
+	suggestion_id int not null,
+	commentor varchar(40) not null,
+	comment varchar(200) not null,
+	time timestamp default CURRENT_TIMESTAMP not null,
+	constraint comment
+		unique (comment)
 )
 ;
 
-CREATE TABLE courses
+create table fms.course_outlines
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	CourseCode VARCHAR(6) NULL,
-	CourseName VARCHAR(254) NULL,
-	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	DepartmentID VARCHAR(6) NULL,
-	CONSTRAINT courses_CourseCode_uindex
-		UNIQUE (CourseCode)
+	course_id varchar(100) not null
+		primary key,
+	course_topics varchar(100) not null,
+	lec_id int not null
 )
 ;
 
-CREATE TABLE departments
+create table fms.courses
 (
-	id INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-	head VARCHAR(60) NOT NULL,
-	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	CONSTRAINT name
-		UNIQUE (name),
-	CONSTRAINT head
-		UNIQUE (head)
+	ID int not null auto_increment
+		primary key,
+	CourseCode varchar(6) null,
+	CourseName varchar(254) null,
+	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
+	DepartmentID varchar(6) null,
+	constraint courses_CourseCode_uindex
+		unique (CourseCode)
 )
 ;
 
-CREATE TABLE events
+alter table course_outlines
+	add constraint course_outlines_ibfk_1
+		foreign key (course_id) references fms.courses (CourseCode)
+			on update cascade on delete cascade
+;
+
+create table fms.departments
 (
-	event_name VARCHAR(100) NOT NULL
-		PRIMARY KEY,
-	event_date VARCHAR(30) NOT NULL,
-	event_venue VARCHAR(30) NOT NULL,
-	event_organizer VARCHAR(60) NOT NULL,
-	target_group VARCHAR(100) NOT NULL,
-	event_theme VARCHAR(100) NOT NULL
+	id varchar(11) not null
+		primary key,
+	name varchar(100) not null,
+	head varchar(60) not null,
+	time timestamp default CURRENT_TIMESTAMP not null,
+	constraint name
+		unique (name),
+	constraint head
+		unique (head)
 )
 ;
 
-CREATE TABLE forums
+create table fms.events
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	Forum_ID VARCHAR(8) NOT NULL,
-	PostDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	Topic VARCHAR(128) NOT NULL,
-	ThreadBy VARCHAR(8) NOT NULL,
-	CONSTRAINT forums_Forum_ID_uindex
-		UNIQUE (Forum_ID),
-	CONSTRAINT forums_Topic_uindex
-		UNIQUE (Topic)
+	event_name varchar(100) not null
+		primary key,
+	event_date varchar(30) not null,
+	event_venue varchar(30) not null,
+	event_organizer varchar(60) not null,
+	target_group varchar(100) not null,
+	event_theme varchar(100) not null
 )
 ;
 
-CREATE TABLE guests
+create table fms.forums
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	IP_Address VARCHAR(16) NOT NULL,
-	Client_agent TEXT NULL,
-	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	Forum_ID varchar(8) not null
+		primary key,
+	PostDate timestamp default CURRENT_TIMESTAMP not null,
+	Topic varchar(128) not null,
+	ThreadBy varchar(8) not null,
+	constraint forums_Topic_uindex
+		unique (Topic)
 )
 ;
 
-CREATE TABLE lecturers
+create table fms.guests
 (
-	lec_id VARCHAR(12) NOT NULL
-		PRIMARY KEY,
-	lec_name VARCHAR(30) NOT NULL,
-	department VARCHAR(40) NOT NULL,
-	contact INT NULL,
-	email VARCHAR(60) NOT NULL,
-	password VARCHAR(30) NOT NULL
+	ID int not null auto_increment
+		primary key,
+	IP_Address varchar(16) not null,
+	Client_agent text null,
+	TimeStamp timestamp default CURRENT_TIMESTAMP not null
 )
 ;
 
-CREATE TABLE news
+create table fms.lecturers
 (
-	title VARCHAR(30) NOT NULL,
-	date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	content TEXT NULL
+	lec_id varchar(12) not null
+		primary key,
+	lec_name varchar(30) not null,
+	department varchar(10) not null,
+	contact int null,
+	email varchar(60) not null,
+	password varchar(30) not null
 )
 ;
 
-CREATE TABLE organizations
+create index department
+	on lecturers (department)
+;
+
+create table fms.news
 (
-	name VARCHAR(100) NOT NULL
-		PRIMARY KEY,
-	type VARCHAR(60) NOT NULL,
-	target VARCHAR(60) NOT NULL,
-	slogan VARCHAR(60) NOT NULL,
-	description TEXT NOT NULL,
-	leader VARCHAR(60) NULL,
-	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	title varchar(30) not null,
+	date timestamp default CURRENT_TIMESTAMP not null,
+	content text null
 )
 ;
 
-CREATE TABLE posts
+create table fms.organizations
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	PostContent TEXT NOT NULL,
-	Thread VARCHAR(8) NOT NULL,
-	PostBy VARCHAR(8) NOT NULL,
-	Forum_ID VARCHAR(8) NOT NULL,
-	CONSTRAINT Forum_ID
-		UNIQUE (Forum_ID)
+	name varchar(100) not null,
+	type varchar(60) not null,
+	target varchar(60) not null,
+	slogan varchar(60) not null,
+	description text not null,
+	leader varchar(60) null,
+	time timestamp default CURRENT_TIMESTAMP not null,
+	ID varchar(8) not null
+		primary key,
+	constraint organizations_name_uindex
+		unique (name)
 )
 ;
 
-CREATE TABLE resources
+create table fms.posts
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	UploadedBy VARCHAR(8) NOT NULL,
-	Type INT NOT NULL,
-	Name VARCHAR(254) NOT NULL,
-	URL TEXT NULL,
-	ResourceID VARCHAR(6) NOT NULL,
-	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	AccessLevel INT NOT NULL,
-	Dept_ID VARCHAR(6) NOT NULL,
-	Description TEXT NOT NULL,
-	CONSTRAINT resources_ResourceID_uindex
-		UNIQUE (ResourceID)
+	ID int not null auto_increment
+		primary key,
+	PostContent text not null,
+	PostBy varchar(8) not null,
+	Forum_ID varchar(8) not null,
+	TimeStamp timestamp default CURRENT_TIMESTAMP null,
+	Flag int default '0' not null,
+	constraint posts_ibfk_1
+		foreign key (Forum_ID) references fms.forums (Forum_ID)
+			on update cascade on delete cascade
 )
 ;
 
-CREATE TABLE results
+create index Forum_ID
+	on posts (Forum_ID)
+;
+
+create table fms.resources
 (
-	department_id INT NOT NULL,
-	course_id INT NOT NULL,
-	student_id VARCHAR(15) NOT NULL,
-	lecturer_id VARCHAR(15) NOT NULL,
-	sem VARCHAR(6) NOT NULL,
-	year VARCHAR(6) NOT NULL,
-	id INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	grade VARCHAR(4) NOT NULL,
-	result_type VARCHAR(20) NOT NULL,
-	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	ID int not null auto_increment
+		primary key,
+	UploadedBy varchar(8) not null,
+	Type int not null,
+	Name varchar(254) not null,
+	URL text null,
+	ResourceID varchar(6) not null,
+	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
+	AccessLevel int not null,
+	Dept_ID varchar(6) not null,
+	Description text not null,
+	constraint resources_ResourceID_uindex
+		unique (ResourceID)
 )
 ;
 
-CREATE TABLE search_history
+create table fms.results
 (
-	ID INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	Keyword TEXT NOT NULL,
-	IP_address VARCHAR(16) NOT NULL,
-	Result_Selected TEXT NOT NULL
+	department_id int not null,
+	course_id int not null,
+	student_id varchar(15) not null,
+	lecturer_id varchar(15) not null,
+	sem varchar(6) not null,
+	year varchar(6) not null,
+	id int not null auto_increment
+		primary key,
+	grade varchar(4) not null,
+	result_type varchar(20) not null,
+	time timestamp default CURRENT_TIMESTAMP not null
 )
 ;
 
-CREATE TABLE student_leaders
+create table fms.search_history
 (
-	adm_number VARCHAR(15) NOT NULL,
-	leader_name VARCHAR(30) NOT NULL,
-	year_of_study VARCHAR(6) NOT NULL,
-	leader_course VARCHAR(100) NOT NULL,
-	leader_phone VARCHAR(12) NOT NULL,
-	leader_email VARCHAR(60) NOT NULL,
-	resignation VARCHAR(20) NOT NULL,
-	period VARCHAR(30) NOT NULL
+	ID int not null auto_increment
+		primary key,
+	Keyword text not null,
+	IP_address varchar(16) not null,
+	Result_Selected text not null
 )
 ;
 
-CREATE TABLE students
+create table fms.student_leaders
 (
-	adm_number VARCHAR(15) NOT NULL
-		PRIMARY KEY,
-	name VARCHAR(30) NOT NULL,
-	year VARCHAR(6) NOT NULL,
-	course VARCHAR(100) NOT NULL,
-	contact INT NULL,
-	email VARCHAR(60) NOT NULL,
-	password VARCHAR(20) NOT NULL
+	adm_number varchar(15) not null,
+	leader_name varchar(30) not null,
+	year_of_study varchar(6) not null,
+	leader_course varchar(100) not null,
+	leader_phone varchar(12) not null,
+	leader_email varchar(60) not null,
+	resignation varchar(20) not null,
+	period varchar(30) not null,
+	Org_ID varchar(8) not null
 )
 ;
 
-CREATE TABLE suggestions
+create table fms.students
 (
-	id INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	title VARCHAR(60) NOT NULL,
-	suggestion TEXT NOT NULL,
-	owner VARCHAR(60) NULL,
-	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	CONSTRAINT title
-		UNIQUE (title)
+	adm_number varchar(15) not null
+		primary key,
+	name varchar(30) not null,
+	year varchar(6) not null,
+	course varchar(100) not null,
+	contact int null,
+	email varchar(60) not null,
+	password varchar(20) not null
 )
 ;
 
-CREATE TABLE units
+create table fms.suggestions
 (
-	course_id INT NULL,
-	name VARCHAR(60) NOT NULL,
-	id INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	department_id INT NOT NULL,
-	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	id int not null auto_increment
+		primary key,
+	title varchar(60) not null,
+	suggestion text not null,
+	owner varchar(60) null,
+	time timestamp default CURRENT_TIMESTAMP not null,
+	constraint title
+		unique (title)
 )
 ;
 
-CREATE TABLE voting
+create table fms.units
 (
-	vote_id INT NOT NULL AUTO_INCREMENT
-		PRIMARY KEY,
-	voter VARCHAR(15) NULL,
-	aspirant VARCHAR(60) NOT NULL
+	course_id varchar(10) not null,
+	name varchar(60) not null,
+	id int not null auto_increment
+		primary key,
+	department_id int not null,
+	time timestamp default CURRENT_TIMESTAMP not null,
+	AllocatedTime int null,
+	constraint units_course_id_uindex
+		unique (course_id),
+	constraint units_ibfk_1
+		foreign key (course_id) references fms.courses (CourseCode)
+			on update cascade on delete cascade
 )
 ;
-CREATE TABLE comments(
-	suggestion_id INT NOT NULL REFERENCES suggestions(`id`),
-	commentor VARCHAR(40) NOT NULL,
-	comment VARCHAR(200) NOT NULL UNIQUE KEY,
-	time TIMESTAMP
-	)
+
+create table fms.voting
+(
+	vote_id int not null auto_increment
+		primary key,
+	voter varchar(15) null,
+	aspirant varchar(60) not null
+)
+;
+
+create view fms.forumview as 
+SELECT
+    `fms`.`forums`.`Forum_ID`   AS `Forum_ID`,
+    `fms`.`forums`.`PostDate`   AS `PostDate`,
+    `fms`.`forums`.`Topic`      AS `Topic`,
+    `fms`.`forums`.`ThreadBy`   AS `ThreadBy`,
+    `fms`.`posts`.`PostBy`      AS `PostBy`,
+    `fms`.`posts`.`PostContent` AS `PostContent`,
+    `fms`.`posts`.`TimeStamp`   AS `TimeStamp`
+  FROM (`fms`.`forums`
+    JOIN `fms`.`posts` ON ((`fms`.`forums`.`Forum_ID` = `fms`.`posts`.`Forum_ID`)));
+
+create view fms.studentorgs as 
+SELECT
+    `fms`.`organizations`.`name`            AS `name`,
+    `fms`.`organizations`.`type`            AS `type`,
+    `fms`.`organizations`.`target`          AS `target`,
+    `fms`.`organizations`.`slogan`          AS `slogan`,
+    `fms`.`organizations`.`description`     AS `description`,
+    `fms`.`organizations`.`leader`          AS `leader`,
+    `fms`.`organizations`.`time`            AS `time`,
+    `fms`.`organizations`.`ID`              AS `ID`,
+    `fms`.`student_leaders`.`adm_number`    AS `adm_number`,
+    `fms`.`student_leaders`.`leader_name`   AS `leader_name`,
+    `fms`.`student_leaders`.`year_of_study` AS `year_of_study`,
+    `fms`.`student_leaders`.`leader_course` AS `leader_course`,
+    `fms`.`student_leaders`.`leader_phone`  AS `leader_phone`,
+    `fms`.`student_leaders`.`leader_email`  AS `leader_email`,
+    `fms`.`student_leaders`.`resignation`   AS `resignation`,
+    `fms`.`student_leaders`.`period`        AS `period`,
+    `fms`.`student_leaders`.`Org_ID`        AS `Org_ID`
+  FROM (`fms`.`organizations`
+    LEFT JOIN `fms`.`student_leaders` ON ((`fms`.`organizations`.`ID` = `fms`.`student_leaders`.`Org_ID`)));
+
+
 ";
 
 try{
