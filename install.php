@@ -1,0 +1,261 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: itcyb
+ * Date: 4/20/2017
+ * Time: 5:44 PM
+ */
+
+require "system/newdb.php";
+$db = new newdb();
+$sql = "
+CREATE TABLE attendance
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	Dept_ID VARCHAR(6) NULL,
+	CourseID VARCHAR(6) NULL,
+	Att_ID VARCHAR(6) NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	LecID VARCHAR(6) NULL,
+	Attendance TEXT NULL,
+	CONSTRAINT attendance_Att_ID_uindex
+		UNIQUE (Att_ID)
+)
+;
+
+CREATE TABLE course_outlines
+(
+	course_id VARCHAR(100) NOT NULL
+		PRIMARY KEY,
+	course_topics VARCHAR(100) NOT NULL,
+	lec_id INT NOT NULL
+)
+;
+
+CREATE TABLE courses
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	CourseCode VARCHAR(6) NULL,
+	CourseName VARCHAR(254) NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	DepartmentID VARCHAR(6) NULL,
+	CONSTRAINT courses_CourseCode_uindex
+		UNIQUE (CourseCode)
+)
+;
+
+CREATE TABLE departments
+(
+	id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	head VARCHAR(60) NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT name
+		UNIQUE (name),
+	CONSTRAINT head
+		UNIQUE (head)
+)
+;
+
+CREATE TABLE events
+(
+	event_name VARCHAR(100) NOT NULL
+		PRIMARY KEY,
+	event_date VARCHAR(30) NOT NULL,
+	event_venue VARCHAR(30) NOT NULL,
+	event_organizer VARCHAR(60) NOT NULL,
+	target_group VARCHAR(100) NOT NULL,
+	event_theme VARCHAR(100) NOT NULL
+)
+;
+
+CREATE TABLE forums
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	Forum_ID VARCHAR(8) NOT NULL,
+	PostDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	Topic VARCHAR(128) NOT NULL,
+	ThreadBy VARCHAR(8) NOT NULL,
+	CONSTRAINT forums_Forum_ID_uindex
+		UNIQUE (Forum_ID),
+	CONSTRAINT forums_Topic_uindex
+		UNIQUE (Topic)
+)
+;
+
+CREATE TABLE guests
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	IP_Address VARCHAR(16) NOT NULL,
+	Client_agent TEXT NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
+;
+
+CREATE TABLE lecturers
+(
+	lec_id VARCHAR(12) NOT NULL
+		PRIMARY KEY,
+	lec_name VARCHAR(30) NOT NULL,
+	department VARCHAR(40) NOT NULL,
+	contact INT NULL,
+	email VARCHAR(60) NOT NULL,
+	password VARCHAR(30) NOT NULL
+)
+;
+
+CREATE TABLE news
+(
+	title VARCHAR(30) NOT NULL,
+	date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	content TEXT NULL
+)
+;
+
+CREATE TABLE organizations
+(
+	name VARCHAR(100) NOT NULL
+		PRIMARY KEY,
+	type VARCHAR(60) NOT NULL,
+	target VARCHAR(60) NOT NULL,
+	slogan VARCHAR(60) NOT NULL,
+	description TEXT NOT NULL,
+	leader VARCHAR(60) NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
+;
+
+CREATE TABLE posts
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	PostContent TEXT NOT NULL,
+	Thread VARCHAR(8) NOT NULL,
+	PostBy VARCHAR(8) NOT NULL,
+	Forum_ID VARCHAR(8) NOT NULL,
+	CONSTRAINT Forum_ID
+		UNIQUE (Forum_ID)
+)
+;
+
+CREATE TABLE resources
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	UploadedBy VARCHAR(8) NOT NULL,
+	Type INT NOT NULL,
+	Name VARCHAR(254) NOT NULL,
+	URL TEXT NULL,
+	ResourceID VARCHAR(6) NOT NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	AccessLevel INT NOT NULL,
+	Dept_ID VARCHAR(6) NOT NULL,
+	Description TEXT NOT NULL,
+	CONSTRAINT resources_ResourceID_uindex
+		UNIQUE (ResourceID)
+)
+;
+
+CREATE TABLE results
+(
+	department_id INT NOT NULL,
+	course_id INT NOT NULL,
+	student_id VARCHAR(15) NOT NULL,
+	lecturer_id VARCHAR(15) NOT NULL,
+	sem VARCHAR(6) NOT NULL,
+	year VARCHAR(6) NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	grade VARCHAR(4) NOT NULL,
+	result_type VARCHAR(20) NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
+;
+
+CREATE TABLE search_history
+(
+	ID INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	Keyword TEXT NOT NULL,
+	IP_address VARCHAR(16) NOT NULL,
+	Result_Selected TEXT NOT NULL
+)
+;
+
+CREATE TABLE student_leaders
+(
+	adm_number VARCHAR(15) NOT NULL,
+	leader_name VARCHAR(30) NOT NULL,
+	year_of_study VARCHAR(6) NOT NULL,
+	leader_course VARCHAR(100) NOT NULL,
+	leader_phone VARCHAR(12) NOT NULL,
+	leader_email VARCHAR(60) NOT NULL,
+	resignation VARCHAR(20) NOT NULL,
+	period VARCHAR(30) NOT NULL
+)
+;
+
+CREATE TABLE students
+(
+	adm_number VARCHAR(15) NOT NULL
+		PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	year VARCHAR(6) NOT NULL,
+	course VARCHAR(100) NOT NULL,
+	contact INT NULL,
+	email VARCHAR(60) NOT NULL,
+	password VARCHAR(20) NOT NULL
+)
+;
+
+CREATE TABLE suggestions
+(
+	id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	title VARCHAR(60) NOT NULL,
+	suggestion TEXT NOT NULL,
+	owner VARCHAR(60) NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT title
+		UNIQUE (title)
+)
+;
+
+CREATE TABLE units
+(
+	course_id INT NULL,
+	name VARCHAR(60) NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	department_id INT NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
+;
+
+CREATE TABLE voting
+(
+	vote_id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY,
+	voter VARCHAR(15) NULL,
+	aspirant VARCHAR(60) NOT NULL
+)
+;
+CREATE TABLE comments(
+	suggestion_id INT NOT NULL REFERENCES suggestions(`id`),
+	commentor VARCHAR(40) NOT NULL,
+	comment VARCHAR(200) NOT NULL UNIQUE KEY,
+	time TIMESTAMP
+	)
+";
+
+try{
+    $db->createTable($sql);
+    echo "success creating tables";
+}catch (DBException $e){
+    //echo $e.',<br>';
+}

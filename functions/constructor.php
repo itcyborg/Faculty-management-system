@@ -28,3 +28,91 @@ if(isset($_POST['forum'])){
     include "function.php";
     addForum($topic);
 }
+
+if(isset($_POST['addattendance'])){
+    $lecid=$_POST['lecid'];
+    $courseid=$_POST['course'];
+    $deptid=$_POST['deptid'];
+    $array=array(
+        'Dept_ID'   =>   $deptid,
+        'Course_ID' =>   $courseid,
+        'LecID'     =>   $lecid
+    );
+    include "function.php";
+    addAttendance($array);
+}
+
+if(isset($_POST['attendancefill'])){
+    $url=$_SERVER['HTTP_REFERER'];
+    $id=$_POST['id'];
+    $regno=$_POST['regno'];
+    $pass=$_POST['pass'];
+    include "function.php";
+    fillAttendance(array('id'=>$id,'regno'=>$regno,'pass'=>$pass,'url'=>$url));
+}
+
+if(isset($_POST['addresource'])){
+    $type=$_POST['type'];
+    $name=$_POST['name'];
+    $file=$_FILES['file'];
+    $uploadedby=$_POST['uploadedby'];
+    $accesslevel=$_POST['level'];
+    $dept_id=$_POST['deptid'];
+    $description=$_POST['description'];
+    $files=array('file'=>$file);
+    $array=array(
+        'type'          =>  $type,
+        'name'          =>  $name,
+        'uploader'      =>  $uploadedby,
+        'dept'          =>  $dept_id,
+        'description'   => $description,
+        'access'        =>  $accesslevel
+    );
+    if($file['name']!=""){
+        $array=array_merge($array,$files);
+    }
+    include "function.php";
+    addResource($array);
+}
+
+if(isset($_POST['post'])){
+    $url=$_SERVER['HTTP_REFERER'];
+    $by=$_POST['by'];
+    $comment=$_POST['comment'];
+    $forumid=$_POST['forumid'];
+    $array=array('by'=>$by,'content'=>$comment,'forum'=>$forumid,'url'=>$url);
+    include "function.php";
+    addPost($array);
+}
+
+if(isset($_POST['addorganisation'])){
+    $name=$_POST['name'];
+    $type=$_POST['type'];
+    $target=$_POST['target'];
+    $slogan=$_POST['slogan'];
+    $description=$_POST['description'];
+    $leader=$_POST['leader'];
+    $array=array(
+        'name'=>$name,
+        'type'=>$type,
+        'target'=>$target,
+        'slogan'=>$slogan,
+        'description'=>$description,
+        'leader'=>$leader
+    );
+    include "function.php";
+    registerOrganisation($array);
+}
+if(isset($_GET['report']) && isset($_GET['cat'])){
+    $id=$_GET['id'];
+    $url=$_SERVER['HTTP_REFERER'];
+    $sql="UPDATE fms.posts SET Flag='1' WHERE ID='$id'";
+    require "../system/newdb.php";
+    $db=new newdb();
+    try{
+        $db->put($sql);
+        header('location:'.$url);
+    }catch (DBException $e){
+        die($e);
+    }
+}
