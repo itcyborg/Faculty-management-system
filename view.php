@@ -98,14 +98,18 @@ if(isset($_GET['organisation'])){
         }
     }
     if(isset($_GET['id'])){
-        $id=$_GET['id'];
-        $sql="SELECT * FROM fms.organizations WHERE ID='$id'";
+        $id=str_replace("-"," ",$_GET['id']);
+        $sql="SELECT * FROM studentorgs WHERE name='$id'";
         try{
             $result=$db->get($sql)->fetchAll(PDO::FETCH_NAMED);
+            $result=$result[0];
             echo "
             <div>
                 <h2></h2>
-                <div style='width:70%;'></div>
+                <div style='width:70%;'>
+                    <h3>".$result['name']."</h3>
+                    <p>".$result['description']."</p>
+                </div>
             </div>
             ";
         }catch (DBException $e){

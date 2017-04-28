@@ -9,7 +9,7 @@
 require "system/newdb.php";
 $db = new newdb();
 $sql = "
-create table fms.attendance
+create table attendance
 (
 	ID int not null auto_increment
 		primary key,
@@ -24,7 +24,7 @@ create table fms.attendance
 )
 ;
 
-create table fms.comments
+create table comments
 (
 	suggestion_id int not null,
 	commentor varchar(40) not null,
@@ -35,7 +35,7 @@ create table fms.comments
 )
 ;
 
-create table fms.course_outlines
+create table course_outlines
 (
 	course_id varchar(100) not null
 		primary key,
@@ -44,7 +44,7 @@ create table fms.course_outlines
 )
 ;
 
-create table fms.courses
+create table courses
 (
 	ID int not null auto_increment
 		primary key,
@@ -59,11 +59,11 @@ create table fms.courses
 
 alter table course_outlines
 	add constraint course_outlines_ibfk_1
-		foreign key (course_id) references fms.courses (CourseCode)
+		foreign key (course_id) references courses (CourseCode)
 			on update cascade on delete cascade
 ;
 
-create table fms.departments
+create table departments
 (
 	id varchar(11) not null
 		primary key,
@@ -77,7 +77,7 @@ create table fms.departments
 )
 ;
 
-create table fms.events
+create table events
 (
 	event_name varchar(100) not null
 		primary key,
@@ -89,7 +89,7 @@ create table fms.events
 )
 ;
 
-create table fms.forums
+create table forums
 (
 	Forum_ID varchar(8) not null
 		primary key,
@@ -101,7 +101,7 @@ create table fms.forums
 )
 ;
 
-create table fms.guests
+create table guests
 (
 	ID int not null auto_increment
 		primary key,
@@ -111,7 +111,7 @@ create table fms.guests
 )
 ;
 
-create table fms.lecturers
+create table lecturers
 (
 	lec_id varchar(12) not null
 		primary key,
@@ -127,7 +127,7 @@ create index department
 	on lecturers (department)
 ;
 
-create table fms.news
+create table news
 (
 	title varchar(30) not null,
 	date timestamp default CURRENT_TIMESTAMP not null,
@@ -135,7 +135,7 @@ create table fms.news
 )
 ;
 
-create table fms.organizations
+create table organizations
 (
 	name varchar(100) not null,
 	type varchar(60) not null,
@@ -151,7 +151,7 @@ create table fms.organizations
 )
 ;
 
-create table fms.posts
+create table posts
 (
 	ID int not null auto_increment
 		primary key,
@@ -161,7 +161,7 @@ create table fms.posts
 	TimeStamp timestamp default CURRENT_TIMESTAMP null,
 	Flag int default '0' not null,
 	constraint posts_ibfk_1
-		foreign key (Forum_ID) references fms.forums (Forum_ID)
+		foreign key (Forum_ID) references forums (Forum_ID)
 			on update cascade on delete cascade
 )
 ;
@@ -170,7 +170,7 @@ create index Forum_ID
 	on posts (Forum_ID)
 ;
 
-create table fms.resources
+create table resources
 (
 	ID int not null auto_increment
 		primary key,
@@ -188,7 +188,7 @@ create table fms.resources
 )
 ;
 
-create table fms.results
+create table results
 (
 	department_id int not null,
 	course_id int not null,
@@ -204,7 +204,7 @@ create table fms.results
 )
 ;
 
-create table fms.search_history
+create table search_history
 (
 	ID int not null auto_increment
 		primary key,
@@ -214,7 +214,7 @@ create table fms.search_history
 )
 ;
 
-create table fms.student_leaders
+create table student_leaders
 (
 	adm_number varchar(15) not null,
 	leader_name varchar(30) not null,
@@ -228,7 +228,7 @@ create table fms.student_leaders
 )
 ;
 
-create table fms.students
+create table students
 (
 	adm_number varchar(15) not null
 		primary key,
@@ -241,7 +241,7 @@ create table fms.students
 )
 ;
 
-create table fms.suggestions
+create table suggestions
 (
 	id int not null auto_increment
 		primary key,
@@ -254,7 +254,7 @@ create table fms.suggestions
 )
 ;
 
-create table fms.units
+create table units
 (
 	course_id varchar(10) not null,
 	name varchar(60) not null,
@@ -266,12 +266,12 @@ create table fms.units
 	constraint units_course_id_uindex
 		unique (course_id),
 	constraint units_ibfk_1
-		foreign key (course_id) references fms.courses (CourseCode)
+		foreign key (course_id) references courses (CourseCode)
 			on update cascade on delete cascade
 )
 ;
 
-create table fms.voting
+create table voting
 (
 	vote_id int not null auto_increment
 		primary key,
@@ -280,39 +280,39 @@ create table fms.voting
 )
 ;
 
-create view fms.forumview as 
+create view forumview as 
 SELECT
-    `fms`.`forums`.`Forum_ID`   AS `Forum_ID`,
-    `fms`.`forums`.`PostDate`   AS `PostDate`,
-    `fms`.`forums`.`Topic`      AS `Topic`,
-    `fms`.`forums`.`ThreadBy`   AS `ThreadBy`,
-    `fms`.`posts`.`PostBy`      AS `PostBy`,
-    `fms`.`posts`.`PostContent` AS `PostContent`,
-    `fms`.`posts`.`TimeStamp`   AS `TimeStamp`
-  FROM (`fms`.`forums`
-    JOIN `fms`.`posts` ON ((`fms`.`forums`.`Forum_ID` = `fms`.`posts`.`Forum_ID`)));
+    forums.Forum_ID   AS Forum_ID,
+    forums.PostDate   AS PostDate,
+    forums.Topic      AS Topic,
+    forums.ThreadBy   AS ThreadBy,
+    posts.PostBy      AS PostBy,
+    posts.PostContent AS PostContent,
+    posts.TimeStamp   AS TimeStamp
+  FROM (forums
+    JOIN posts ON ((forums.Forum_ID = posts.Forum_ID)));
 
-create view fms.studentorgs as 
+create view studentorgs as 
 SELECT
-    `fms`.`organizations`.`name`            AS `name`,
-    `fms`.`organizations`.`type`            AS `type`,
-    `fms`.`organizations`.`target`          AS `target`,
-    `fms`.`organizations`.`slogan`          AS `slogan`,
-    `fms`.`organizations`.`description`     AS `description`,
-    `fms`.`organizations`.`leader`          AS `leader`,
-    `fms`.`organizations`.`time`            AS `time`,
-    `fms`.`organizations`.`ID`              AS `ID`,
-    `fms`.`student_leaders`.`adm_number`    AS `adm_number`,
-    `fms`.`student_leaders`.`leader_name`   AS `leader_name`,
-    `fms`.`student_leaders`.`year_of_study` AS `year_of_study`,
-    `fms`.`student_leaders`.`leader_course` AS `leader_course`,
-    `fms`.`student_leaders`.`leader_phone`  AS `leader_phone`,
-    `fms`.`student_leaders`.`leader_email`  AS `leader_email`,
-    `fms`.`student_leaders`.`resignation`   AS `resignation`,
-    `fms`.`student_leaders`.`period`        AS `period`,
-    `fms`.`student_leaders`.`Org_ID`        AS `Org_ID`
-  FROM (`fms`.`organizations`
-    LEFT JOIN `fms`.`student_leaders` ON ((`fms`.`organizations`.`ID` = `fms`.`student_leaders`.`Org_ID`)));
+    organizations.name            AS name,
+    organizations.type            AS type,
+    organizations.target          AS target,
+    organizations.slogan          AS slogan,
+    organizations.description     AS description,
+    organizations.leader          AS leader,
+    organizations.time            AS time,
+    organizations.ID              AS ID,
+    student_leaders.adm_number    AS adm_number,
+    student_leaders.leader_name   AS leader_name,
+    student_leaders.year_of_study AS year_of_study,
+    student_leaders.leader_course AS leader_course,
+    student_leaders.leader_phone  AS leader_phone,
+    student_leaders.leader_email  AS leader_email,
+    student_leaders.resignation   AS resignation,
+    student_leaders.period        AS period,
+    student_leaders.Org_ID        AS Org_ID
+  FROM (organizations
+    LEFT JOIN student_leaders ON ((organizations.ID = student_leaders.Org_ID)));
 
 
 ";

@@ -46,10 +46,14 @@ class newdb
         $this->dbhost = "localhost";
         $this->queryString = "";
         try{
-            $this->connection=new PDO("mysql:host=$this->dbhost;dbname=$this->dbname",$this->dbuser,$this->dbpass,array(PDO::ATTR_EMULATE_PREPARES=> true,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $this->connection=new PDO("mysql:host=$this->dbhost;dbname=$this->dbname",$this->dbuser,$this->dbpass,array(PDO::ATTR_EMULATE_PREPARES=> true,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,INFO_GENERAL));
         }catch (PDOException $e){
             throw new DBException($e);
         }
+    }
+
+    public function connectionInfo(){
+        return $this->connection->getAttribute(PDO::ATTR_SERVER_INFO);
     }
 
     /**

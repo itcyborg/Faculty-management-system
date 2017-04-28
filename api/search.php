@@ -132,8 +132,17 @@ class search extends searchdb
         $_resources="";
         $_news="";
         $_organisations="";
+        $output=array();
         try{
             $_wiki=$this->api->wiki();
+            foreach ($_wiki->query->search as $key=>$value){
+                $output[]=(object) array(
+                    'link'      =>  "http://en.wikipedia.org/wiki/".$value->title,
+                    'title'     =>  $value->title,
+                    'source'    =>  "Wikipedia.org",
+                    'snippet'   =>  substr($value->snippet,0,200)
+                );
+            }
         }catch (apiException $e){
             //throw new searchException("wikipedia");
             $this->searchError_logs($e);
@@ -141,6 +150,14 @@ class search extends searchdb
         }
         try{
             $_archive=$this->api->archive();
+            foreach ($_archive->response->docs as $doc){
+                $output[]=(object) array(
+                    'link'      =>  "https://www.archive.org/details/".$doc->identifier,
+                    'title'     =>  $doc->title,
+                    'source'    =>  "Archive.org",
+                    'snippet'   =>  substr($doc->description,0,250)."..."
+                );
+            }
         }catch (apiException $e){
             //throw new searchException("archive");
             $this->searchError_logs($e);
@@ -148,29 +165,46 @@ class search extends searchdb
         }
         try{
             $_resources=$this->resources($query);
+            foreach ($_resources as $key=>$value){
+                $output[]=(object) array(
+                    'link'      =>  "/faculty/".substr($value['URL'],3),
+                    'title'     =>  $value['Name'],
+                    'source'    =>  "Local resource",
+                    'snippet'   =>  substr($value['Description'],0,250)."..."
+                );
+            }
         }catch (Exception $e){
             throw new searchException("resources");
         }
-
         try{
             $_news=$this->news($query);
+            foreach ($_news as $key=>$value){
+                $output[]=(object) array(
+                    'link'      =>  $value['title'],
+                    'title'     =>  $value['title'],
+                    'source'    =>  $value['local news'],
+                    'snippet'   =>  $value['date']."<br>".substr($value['content'],0,250)."...",
+                );
+            }
         }catch (Exception $e){
             throw new searchException("resources");
         }
 
         try{
             $_organisations=$this->organisations($query);
+            foreach ($_organisations as $key=>$value){
+                $output[]=(object) array(
+                    'link'      =>  "organisations/".str_replace(" ","-",$value['name']),
+                    'title'     =>  $value['name'],
+                    'source'    =>  'local organisations',
+                    'snippet'   =>  "Type:<i>".$value['type']."</i><br>Slogan: <i>".$value['slogan']."</i><br>".substr($value['description'],0,250)."...",
+                );
+            }
+            $object[]=(object) $_organisations;
         }catch (Exception $e){
             throw new searchException("resources");
         }
-        return array('wiki'=>$_wiki,'archive'=>$_archive,'news'=>$_news,'resources'=>$_resources,'organisations'=>$_organisations);
+        return $output;
     }
 }
-
-/*$search=new search();
-try{
-    var_dump($search->all("all the time to keep"));
-}catch (searchException $e){
-    echo $e->errorMessage();
-}*/
 

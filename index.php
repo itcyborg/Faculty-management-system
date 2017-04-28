@@ -33,30 +33,18 @@ $output="";
         $searchb=new search();
         $search=$_POST['query'];
         $result=$searchb->all($search);
-        foreach ($result['wiki']->query->search as $key=>$value) {
-            $output.= "<h3><a href='http://en.wikipedia.org/wiki/".$value->title."' target='_blank'>".$value->title."</a></h3>";
-            $output.= "<small><i>Source: wikipedia</i></small><br>";
+        foreach ($result as $key=>$value) {
+            $output.= "<h3><a href='$value->link' target='_blank'>".$value->title."</a></h3>";
+            $output.= "<small><i>Source: $value->source</i></small><br>";
             $output.=$value->snippet."<br>";
         }
-        foreach ($result['archive']->response->docs as $doc) {
-            $output.="<div><h3><a href='https://www.archive.org/details/$doc->identifier' target='_blank'>$doc->title</a></h3>
-               <small>Source:<i>archive.org</i></small>
-              <p>$doc->description</p></div>";
-            $output.="<br>";
-        }
 
-        /*try{
+        try{
             $sql="INSERT INTO fms.search_history (Keyword,IP_address) VALUES ('".$search."','".$ip."')";
             $db->put($sql);
-            $resource_result=$db->get("SELECT * FROM resources WHERE ".$resource_construct);
-            $forum_reply=$db->get("SELECT * FROM forums WHERE ".$forum_construct);
-            var_dump($resource_result->fetchAll(PDO::FETCH_OBJ));
-            echo "<br>";
-            var_dump($forum_reply->fetchAll(PDO::FETCH_OBJ));
-            echo "<br>";
         }catch (dbException $e){
             die($e);
-        }*/
+        }
     }
 ?>
 
