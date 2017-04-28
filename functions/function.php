@@ -34,7 +34,7 @@ function addForum($topic){
     global $db;
     $forumid="F".generateID();
     $by="ADMIN";
-    $sql="INSERT INTO fms.forums(Forum_ID, Topic, ThreadBy) VALUES ('$forumid','$topic','$by')";
+    $sql="INSERT INTO forums(Forum_ID, Topic, ThreadBy) VALUES ('$forumid','$topic','$by')";
     try{
         $db->put($sql);
     }catch (DBException $e){
@@ -67,7 +67,7 @@ function addAttendance($array){
     $course_id=$array['Course_ID'];
     $att_id="AT".generateID();
     $lec_id=$array['LecID'];
-    $sql="INSERT INTO fms.attendance(Dept_ID, UnitID, Att_ID, LecID) VALUES ('$dept_id','$course_id','$att_id','$lec_id')";
+    $sql="INSERT INTO attendance(Dept_ID, UnitID, Att_ID, LecID) VALUES ('$dept_id','$course_id','$att_id','$lec_id')";
     $result=$db->put($sql);
     var_dump($result);
 }
@@ -80,7 +80,7 @@ function fillAttendance($array){
     $attid=$array['id'];
     $regno=strtoupper($array['regno']);
     $password=$array['pass'];
-    $sql="SELECT * from fms.attendance WHERE Att_ID='$attid'";
+    $sql="SELECT * from attendance WHERE Att_ID='$attid'";
     if($regno!="") {
         $attendance = $db->get($sql)->fetch(PDO::FETCH_ASSOC)['Attendance'];
         if ($attendance == "" || $attendance == null) {
@@ -97,7 +97,7 @@ function fillAttendance($array){
         if ($attendance == "" || $attendance == null) {
             echo "An error occured. The record cannot be updated";
         } else {
-            $sql1 = "UPDATE fms.attendance SET Attendance='$attendance' WHERE Att_ID='$attid'";
+            $sql1 = "UPDATE attendance SET Attendance='$attendance' WHERE Att_ID='$attid'";
             $db->put($sql1);
         }
     }else{
@@ -121,7 +121,7 @@ function addResource($array){
     $dept_id=$array['dept'];
     $description=$array['description'];
     $uploadedby=$array['uploader'];
-    $sql="INSERT INTO fms.resources(UploadedBy, Type, Name, URL, ResourceID, AccessLevel, Dept_ID, Description) VALUES ('$uploadedby','$type','$name','$url','$resourceid','$level','$dept_id','$description')";
+    $sql="INSERT INTO resources(UploadedBy, Type, Name, URL, ResourceID, AccessLevel, Dept_ID, Description) VALUES ('$uploadedby','$type','$name','$url','$resourceid','$level','$dept_id','$description')";
     global $db;
     try{
         $db->put($sql);
@@ -244,7 +244,7 @@ function addPost($array){
     $forumid=$array['forum'];
     $content=$array['content'];
     $by=$array['by'];
-    $sql="INSERT INTO fms.posts(PostContent, PostBy, Forum_ID) VALUES ('$content','$by','$forumid')";
+    $sql="INSERT INTO posts(PostContent, PostBy, Forum_ID) VALUES ('$content','$by','$forumid')";
     try{
         $db->put($sql);
         header("location:".$array['url']);
@@ -262,7 +262,7 @@ function registerOrganisation($array){
     $description=$array['description'];
     $leader=$array['leader'];
     $id="ORG".generateID();
-    $sql="INSERT INTO fms.organizations(name, type, target, slogan, description, leader, ID) VALUES ('$name','$type','$target','$slogan','$description','$leader','$id')";
+    $sql="INSERT INTO organizations(name, type, target, slogan, description, leader, ID) VALUES ('$name','$type','$target','$slogan','$description','$leader','$id')";
     try{
         $result=$db->put($sql);
         var_dump($result);
@@ -281,7 +281,7 @@ function registerOrganisation($array){
  */
 function generateTimetable($array){
     global $db;
-    $sql="SELECT * FROM fms.units";
+    $sql="SELECT * FROM units";
     try{
         $result=$db->get($sql);
         $result=$result->fetchAll(PDO::FETCH_NAMED);

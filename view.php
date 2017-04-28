@@ -49,7 +49,7 @@ if(isset($_GET['attendance'])){
     require "system/newdb.php";
     $db=new newdb();
     $id=$_GET['attendance'];
-    $sql="SELECT * FROM fms.attendance WHERE Att_ID='$id'";
+    $sql="SELECT * FROM attendance WHERE Att_ID='$id'";
     $result=$db->get($sql)->fetch(PDO::FETCH_NAMED);
     ?>
     <title>Fill Attendance</title>
@@ -81,7 +81,7 @@ if(isset($_GET['organisation'])){
     require "system/newdb.php";
     $db=new newdb();
     if(isset($_GET['list'])) {
-        $sql = "SELECT * FROM fms.organizations";
+        $sql = "SELECT * FROM organizations";
         try{
             $result=$db->get($sql)->fetchAll(PDO::FETCH_NAMED);
             foreach ($result as $org){
@@ -119,7 +119,7 @@ if(isset($_GET['organisation'])){
 }
 if(isset($_GET['courses'])){
     if(isset($_GET['list'])){
-        $sql="SELECT * FROM fms.courses";
+        $sql="SELECT * FROM courses";
         include "system/newdb.php";
         $db=new newdb();
         try {

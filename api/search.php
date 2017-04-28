@@ -167,7 +167,7 @@ class search extends searchdb
             $_resources=$this->resources($query);
             foreach ($_resources as $key=>$value){
                 $output[]=(object) array(
-                    'link'      =>  "/faculty/".substr($value['URL'],3),
+                    'link'      =>  "resources/".$value['ResourceID'],
                     'title'     =>  $value['Name'],
                     'source'    =>  "Local resource",
                     'snippet'   =>  substr($value['Description'],0,250)."..."

@@ -106,7 +106,7 @@ if(isset($_POST['addorganisation'])){
 if(isset($_GET['report']) && isset($_GET['cat'])){
     $id=$_GET['id'];
     $url=$_SERVER['HTTP_REFERER'];
-    $sql="UPDATE fms.posts SET Flag='1' WHERE ID='$id'";
+    $sql="UPDATE posts SET Flag='1' WHERE ID='$id'";
     require "../system/newdb.php";
     $db=new newdb();
     try{
