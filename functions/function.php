@@ -18,7 +18,7 @@ function addCourse($array){
     $course_code=$array['code'];
     $course_name=$array['name'];
     $department=$array['department'];
-    $sql="INSERT INTO courses(CourseCode,CourseName,DepartmentID) VALUES ('".$course_code."','".$course_name."','".$department."')";
+    $sql="INSERT INTO courses(CourseCode,CourseName,DepartmentID) VALUES ('".$course_code."','".$course_name."','".$department."') ON DUPLICATE SET CourseName='$course_name',DepartmentID='$department'";
     try{
         $result=$db->put($sql);
         var_dump($result);
@@ -253,6 +253,9 @@ function addPost($array){
     }
 }
 
+/**
+ * @param $array
+ */
 function registerOrganisation($array){
     global $db;
     $name=$array['name'];
@@ -328,5 +331,3 @@ function generateTimetable($array){
         die($e);
     }
 }
-
-//generateTimetable(array('venues'=>array('tb1','tb2','tb3','tb4','tb5')));

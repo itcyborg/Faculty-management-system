@@ -9,13 +9,15 @@
 if(isset($_POST['addcourse'])){
     if(isset($_POST['department']) && isset($_POST['name']) && isset($_POST['code'])) {
         $code = $_POST['code'];
+        $url=$_SERVER['HTTP_REFERER'];
         $name = $_POST['name'];
         $department = $_POST['department'];
         include "function.php";
         $array=array(
             'code'=>$code,
             'name'=>$name,
-            'department'=>$department
+            'department'=>$department,
+            'url'   =>  $url
         );
         addCourse($array);
     }else{
@@ -30,13 +32,15 @@ if(isset($_POST['forum'])){
 }
 
 if(isset($_POST['addattendance'])){
+    $url=$_SERVER['HTTP_REFERER'];
     $lecid=$_POST['lecid'];
     $courseid=$_POST['course'];
     $deptid=$_POST['deptid'];
     $array=array(
         'Dept_ID'   =>   $deptid,
         'Course_ID' =>   $courseid,
-        'LecID'     =>   $lecid
+        'LecID'     =>   $lecid,
+        'url'       =>   $url
     );
     include "function.php";
     addAttendance($array);
@@ -52,6 +56,7 @@ if(isset($_POST['attendancefill'])){
 }
 
 if(isset($_POST['addresource'])){
+    $url=$_SERVER['HTTP_REFERER'];
     $type=$_POST['type'];
     $name=$_POST['name'];
     $file=$_FILES['file'];
@@ -66,7 +71,8 @@ if(isset($_POST['addresource'])){
         'uploader'      =>  $uploadedby,
         'dept'          =>  $dept_id,
         'description'   => $description,
-        'access'        =>  $accesslevel
+        'access'        =>  $accesslevel,
+        'url'           =>  $url
     );
     if($file['name']!=""){
         $array=array_merge($array,$files);
@@ -86,6 +92,7 @@ if(isset($_POST['post'])){
 }
 
 if(isset($_POST['addorganisation'])){
+    $url=$_SERVER['HTTP_REFERER'];
     $name=$_POST['name'];
     $type=$_POST['type'];
     $target=$_POST['target'];
@@ -98,7 +105,8 @@ if(isset($_POST['addorganisation'])){
         'target'=>$target,
         'slogan'=>$slogan,
         'description'=>$description,
-        'leader'=>$leader
+        'leader'=>$leader,
+        'url'   => $url
     );
     include "function.php";
     registerOrganisation($array);

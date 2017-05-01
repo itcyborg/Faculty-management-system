@@ -21,7 +21,7 @@ require "api/search.php";
 $db=new newdb();
 
 $client_agent=$_SERVER['HTTP_USER_AGENT'];
-$sql="INSERT INTO fms.guests(IP_Address, Client_agent) VALUES ('$ip','$client_agent')";
+$sql="INSERT INTO guests(IP_Address, Client_agent) VALUES ('$ip','$client_agent')";
 try{
     $db->put($sql);
 }catch (dbException $e){
@@ -40,7 +40,7 @@ $output="";
         }
 
         try{
-            $sql="INSERT INTO fms.search_history (Keyword,IP_address) VALUES ('".$search."','".$ip."')";
+            $sql="INSERT INTO search_history (Keyword,IP_address) VALUES ('".$search."','".$ip."')";
             $db->put($sql);
         }catch (dbException $e){
             die($e);
@@ -96,7 +96,7 @@ $output="";
 
     <h4>Fill attendance</h4>
     <?php
-    $sql="SELECT * FROM fms.attendance";
+    $sql="SELECT * FROM attendance";
     $result=$db->get($sql);
     $result=$result->fetchAll(PDO::FETCH_NAMED);
     foreach ($result as $value){
@@ -119,6 +119,8 @@ $output="";
         <input type="file" name="file"><br>
         <input type="submit" value="Add Resource" name="addresource">
     </form>
+    <br>
+    <a href="resources">View all resources</a>
     <hr>
     <div>
         <h3>Add organisation</h3>

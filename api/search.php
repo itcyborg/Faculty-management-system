@@ -8,19 +8,49 @@
  */
 require $_SERVER['DOCUMENT_ROOT']."faculty/system/newdb.php";
 require "api.php";
+
+/**
+ * Class searchException
+ */
 class searchException extends Exception{
+    /**
+     * @return string
+     */
     public function errorMessage()
     {
         $error="Error getting results from ".$this->getMessage();
         return $error;
     }
 }
+
+/**
+ * Class searchdb
+ */
 class searchdb extends newdb{}
+
+/**
+ * Class search
+ */
 class search extends searchdb
 {
+    /**
+     * @var
+     */
     protected $query;
+    /**
+     * @var
+     */
     protected $output;
+    /**
+     * @var
+     */
     private $api;
+
+    /**
+     * @param null $query
+     * @return array
+     * @throws searchException
+     */
     public function resources($query=null){
         $this->query=$query;
         $search_string=trim($this->query);
@@ -51,6 +81,11 @@ class search extends searchdb
         }
     }
 
+    /**
+     * @param null $query
+     * @return array
+     * @throws searchException
+     */
     public function news($query=null){
         $this->query=$query;
         $search_string=trim($this->query);
@@ -81,6 +116,11 @@ class search extends searchdb
         }
     }
 
+    /**
+     * @param null $query
+     * @return array
+     * @throws searchException
+     */
     public function organisations($query=null){
         $this->query=$query;
         $search_string=trim($this->query);
@@ -111,20 +151,32 @@ class search extends searchdb
         }
     }
 
+    /**
+     * @param $error
+     */
     private function searchError_logs($error){
-        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/searchError_logs.txt','a');
+        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/searchError_logs.fct','a');
         fwrite($file,$error);
         fclose($file);
     }
 
+    /**
+     * @param $search
+     */
     private function search_logs($search){
-        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/search_logs.txt','a');
+        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/search_logs.fcts','a');
         fwrite($file,$search);
         fclose($file);
 
     }
 
-    public function all($query=null,$array=null){
+    /**
+     * @param null $query
+     * @param null $array
+     * @return array
+     * @throws searchException
+     */
+    public function all($query=null, $array=null){
         $this->api=new api($query);
         $this->search_logs("Api:".$query."\n");
         $_wiki="";

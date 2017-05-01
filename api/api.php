@@ -42,6 +42,10 @@ class api
         }
     }
 
+    /**
+     * @return mixed
+     * @throws apiException
+     */
     function archive(){
         if(@$archive=file_get_contents("https://archive.org/advancedsearch.php?q=$this->search~&description&title&source&output=json&rows=10")){
             return json_decode($archive);

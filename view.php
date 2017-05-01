@@ -8,20 +8,22 @@
 @session_start();
 if(isset($_GET['forums'])){
     $forum=$_GET['forums'];
-    if($forum=="list"){
-        require "system/newdb.php";
-        $db=new newdb();
-        $sql="SELECT * FROM forums";
-        $result=$db->get($sql);
-        $output="";
-        while($row=$result->fetch(PDO::FETCH_NAMED)){
-            $output.="<a href='view.php?forums=id&id=".$row['Forum_ID']."'>".$row['Topic']."</a><br>";
+    require "system/newdb.php";
+    $db=new newdb();
+    $sql="SELECT * FROM forums WHERE Flag='0'";
+    $result=$db->get($sql);
+    $output="";
+    if($result->rowCount()>0) {
+        while ($row = $result->fetch(PDO::FETCH_NAMED)) {
+            $output .= "<a href='view.php?forums=id&id=" . $row['Forum_ID'] . "'>" . $row['Topic'] . "</a>
+                   <small><i><a href='report.php?forum&id=" . $row['Forum_ID'] . "'>Report</a></i></small><br>";
         }
-        echo $output;
+    }else{
+        $output= "No forums found";
     }
+    echo $output;
+
     if($forum=="id"){
-        require "system/newdb.php";
-        $db=new newdb();
         $id=$_GET['id'];
         echo "<b>".$id."</b><br><hr>";
         $posts="";
@@ -128,6 +130,29 @@ if(isset($_GET['courses'])){
                 echo $item['CourseCode'].":".$item['CourseName']."<br>";
             }
         }catch (DBException $e){
+        }
+    }
+}
+if(isset($_GET['resource'])){
+    require "system/newdb.php";
+    $db=new newdb();
+    if(isset($_GET['id'])){
+        $id=$_GET['id'];
+        $sql="SELECT * FROM resources WHERE ResourceID='$id'";
+        $result=$db->get($sql);
+        $rs=$result->fetchAll(PDO::FETCH_NAMED);
+        foreach ($rs as $r) {
+            $link=substr($r['URL'],0);
+            $desc=$r['Description'];
+            echo "<a href='$link'>".$r['Name']."</a><br><p>$desc</p>";
+        }
+    }else{
+        $sql="SELECT * FROM resources";
+        $result=$db->get($sql);
+        $rs=$result->fetchAll(PDO::FETCH_NAMED);
+        foreach ($rs as $r) {
+            $link=substr($r['ResourceID'],0);
+            echo "<a href='resources/$link'>".$r['Name']."</a><br>";
         }
     }
 }
