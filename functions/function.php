@@ -79,7 +79,6 @@ function fillAttendance($array){
     global $db;
     $attid=$array['id'];
     $regno=strtoupper($array['regno']);
-    $password=$array['pass'];
     $sql="SELECT * from attendance WHERE Att_ID='$attid'";
     if($regno!="") {
         $attendance = $db->get($sql)->fetch(PDO::FETCH_ASSOC)['Attendance'];
@@ -91,7 +90,6 @@ function fillAttendance($array){
             } else {
                 $attendance .= "," . $regno;
                 $_SESSION['status']="success";
-                header('location:'.$array['url']);
             }
         }
         if ($attendance == "" || $attendance == null) {
@@ -274,6 +272,19 @@ function registerOrganisation($array){
     }
 }
 
+function viewForums($flag=NULL){
+    global $db;
+    $sql="SELECT * FROM forums";
+    if($flag!==null){
+        $sql.=" WHERE Flag='1'";
+    }
+    $_result=$db->get($sql);
+    if($_result->rowCount()>0){
+        $result=$_result->fetchAll(PDO::FETCH_OBJ);
+        return $result;
+    }
+}
+
 /**
  *
  * TODO get a list of all the units of that particular course
@@ -331,3 +342,4 @@ function generateTimetable($array){
         die($e);
     }
 }
+

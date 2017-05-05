@@ -2,81 +2,88 @@
 /**
  * Created by PhpStorm.
  * User: itcyb
- * Date: 4/16/2017
- * Time: 6:25 PM
+ * Date: 5/3/2017
+ * Time: 4:05 PM
  */
-@session_start();
-if(isset($_GET['forums'])){
-    $forum=$_GET['forums'];
-    require "system/newdb.php";
+
+$page="";
+$output="";
+$id="";
+if (isset($_POST['page']) && isset($_POST['id'])){
+    $page=$_POST['page'];
+    $id=$_POST['id'];
+}elseif(isset($_POST['page'])){
+    $page=$_POST['page'];
+}
+
+
+if($page==="forums"){
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
-    $sql="SELECT * FROM forums WHERE Flag='0'";
+    $sql="SELECT * FROM forums";
     $result=$db->get($sql);
-    $output="";
     if($result->rowCount()>0) {
         while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-            $output .= "<a href='view.php?forums=id&id=" . $row->Forum_ID . "'>" . $row->Topic . "</a>
-                   <small><i><a href='report.php?forum&id=" . $row->Forum_ID . "'>Report</a></i></small><br>";
+            $output .= "<a href='../view.php?forums=id&id=" . $row->Forum_ID . "' target='_#content'>" . $row->Topic . "</a>
+                   <small><i><a href='../report.php?forum&id=" . $row->Forum_ID . "'>Report</a></i></small><br>";
         }
     }else{
         $output= "No forums found";
     }
-
-    if($forum=="id"){
-        $id=$_GET['id'];
-        $output= "<b>".$id."</b><br><hr>";
-        $posts="";
-        $sql="SELECT * from posts WHERE Forum_ID='$id' AND Flag='0'";
-        $result=$db->get($sql);
-        $posts=$result->fetchAll(PDO::FETCH_OBJ);
-        foreach ($posts as $post){
-            $output.= "<div>
-                <p>".$post->PostContent."</p>
-                <p><blockquote>".$post->PostBy." at <small><i>".$post->TimeStamp."</i></small></blockquote></p>
-                <small><a href='functions/constructor.php?report=1&cat=post&id=".$post->ID."'>Report post</a></small>
-            </div><hr>";
-        }
-        $output.="
-        <form method=\"post\" action=\"functions/constructor.php\">
-            <input name=\"forumid\" value=\"$id\" hidden>
-            <input name=\"by\" placeholder=\"Name\" type=\"text\" autofocus=\"autofocus\"><br>
-            <input name=\"comment\" placeholder=\"comment\" type=\"text\"><br>
-            <input type=\"submit\" name=\"post\" value=\"Post\">
-        </form>";
-    }
     echo $output;
 }
-if(isset($_GET['attendance'])){
-    require "system/newdb.php";
+if($page=='attendance'){
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
-    $id=$_GET['attendance'];
+    $sql="SELECT * FROM attendance";
+    $result=$db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+    echo "<h2>Attendance</h2>";
+    $count=0;
+    foreach ($result as $item) {
+        $count++;
+        echo $count.". <a href='#attendace#".$item->Att_ID."' onclick=\"getPages('constructor.php','attendaceid','main','$item->Att_ID')\">$item->Att_ID</a><br>";
+    }
+}
+if($page=='attendaceid'){
+    require_once $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
+    $db=new newdb();
+    echo "<h2>Fill Attendance :$id</h2>";
+    $form="
+    	<form id='attendanceform'>
+    	    <input type='text' name='id' id='id' value='$id' hidden>
+    	    <input type='text' name='regno' id='regno' placeholder='Reg No'><br>
+    	    <button>Add</button>
+    	</form>
+    	<script type='text/javascript'>
+        $(\"#attendanceform\").submit(function (f) {
+            f.preventDefault();
+            var id=$('#id').val();
+            var regno=$('#regno').val();
+            $.ajax({
+                url :   '../functions/constructor.php',
+                data:{
+                    'attendancefill':1,
+                    'regno':regno,
+                    'id':id
+                },
+                type:   'POST',
+                beforeSend:function(){
+                },
+                success:function(data){
+                    getPages('constructor.php','attendaceid','main','$id');
+                }
+            });
+        });</script>
+    ";
     $sql="SELECT * FROM attendance WHERE Att_ID='$id'";
     $result=$db->get($sql)->fetch(PDO::FETCH_OBJ);
-    ?>
-    <title>Fill Attendance</title>
-    <div>
-        <h3><?php echo $result->Att_ID;?></h3>
-        <?php
-            $attended=$result->Attendance;
-            $att=explode(",",$attended);
-            foreach ($att as $key){
-                echo "$key<br>";
-            }
-        ?>
-    </div>
-    <form action="functions/constructor.php" method="post">
-        <?php
-            if(isset($_SESSION['status'])){
-                echo "success<br>";
-                session_destroy();
-            }
-        ?>
-        <input type="text" value="<?php echo $result->Att_ID;?>" hidden name="id">
-        <input type="text" name="regno" placeholder="Registration number"><br><br>
-        <input type="password" name="pass" placeholder="Password"><br><br>
-        <input type="submit" name="attendancefill" value="Fill Attendance">
-    </form>
-    <?php
+    $atts=$result->Attendance;
+    $atts=explode(",",$atts);
+    $attendance="";
+    foreach ($atts as $att) {
+        $attendance.="<p>$att</p>";
+    }
+    echo $attendance.$form;
 }
 if(isset($_GET['organisation'])){
     require "system/newdb.php";

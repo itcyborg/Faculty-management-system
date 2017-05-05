@@ -6,7 +6,7 @@
  * Date: 4/24/2017
  * Time: 11:39 AM
  */
-require $_SERVER['DOCUMENT_ROOT']."faculty/system/newdb.php";
+require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
 require "api.php";
 
 /**
@@ -155,7 +155,7 @@ class search extends searchdb
      * @param $error
      */
     private function searchError_logs($error){
-        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/searchError_logs.fct','a');
+        $file=fopen($_SERVER['DOCUMENT_ROOT'].'/logs/searchError_logs.fct','a');
         fwrite($file,$error);
         fclose($file);
     }
@@ -164,7 +164,7 @@ class search extends searchdb
      * @param $search
      */
     private function search_logs($search){
-        $file=fopen($_SERVER['DOCUMENT_ROOT'].'faculty/logs/search_logs.fcts','a');
+        $file=fopen($_SERVER['DOCUMENT_ROOT'].'/logs/search_logs.fcts','a');
         fwrite($file,$search);
         fclose($file);
 
@@ -186,40 +186,10 @@ class search extends searchdb
         $_organisations="";
         $output=array();
         try{
-            $_wiki=$this->api->wiki();
-            foreach ($_wiki->query->search as $key=>$value){
-                $output[]=(object) array(
-                    'link'      =>  "http://en.wikipedia.org/wiki/".$value->title,
-                    'title'     =>  $value->title,
-                    'source'    =>  "Wikipedia.org",
-                    'snippet'   =>  substr($value->snippet,0,200)
-                );
-            }
-        }catch (apiException $e){
-            //throw new searchException("wikipedia");
-            $this->searchError_logs($e);
-            $_wiki=array();
-        }
-        try{
-            $_archive=$this->api->archive();
-            foreach ($_archive->response->docs as $doc){
-                $output[]=(object) array(
-                    'link'      =>  "https://www.archive.org/details/".$doc->identifier,
-                    'title'     =>  $doc->title,
-                    'source'    =>  "Archive.org",
-                    'snippet'   =>  substr($doc->description,0,250)."..."
-                );
-            }
-        }catch (apiException $e){
-            //throw new searchException("archive");
-            $this->searchError_logs($e);
-            $_archive=array();
-        }
-        try{
             $_resources=$this->resources($query);
             foreach ($_resources as $key=>$value){
                 $output[]=(object) array(
-                    'link'      =>  "resources/".$value['ResourceID'],
+                    'link'      =>  "/resources/".$value['ResourceID'],
                     'title'     =>  $value['Name'],
                     'source'    =>  "Local resource",
                     'snippet'   =>  substr($value['Description'],0,250)."..."
@@ -239,14 +209,14 @@ class search extends searchdb
                 );
             }
         }catch (Exception $e){
-            throw new searchException("resources");
+            throw new searchException("news");
         }
 
         try{
             $_organisations=$this->organisations($query);
             foreach ($_organisations as $key=>$value){
                 $output[]=(object) array(
-                    'link'      =>  "organisations/".str_replace(" ","-",$value['name']),
+                    'link'      =>  "/organisations/".str_replace(" ","-",$value['name']),
                     'title'     =>  $value['name'],
                     'source'    =>  'local organisations',
                     'snippet'   =>  "Type:<i>".$value['type']."</i><br>Slogan: <i>".$value['slogan']."</i><br>".substr($value['description'],0,250)."...",
@@ -254,9 +224,46 @@ class search extends searchdb
             }
             $object[]=(object) $_organisations;
         }catch (Exception $e){
-            throw new searchException("resources");
+            throw new searchException("organisations");
+        }
+        try{
+            $_wiki=$this->api->wiki();
+            foreach ($_wiki->query->search as $key=>$value){
+                $output[]=(object) array(
+                    'link'      =>  "http://en.wikipedia.org/wiki/".$value->title,
+                    'title'     =>  $value->title,
+                    'source'    =>  "Wikipedia.org",
+                    'snippet'   =>  substr($value->snippet,0,200)
+                );
+            }
+        }catch (apiException $e){
+            //throw new searchException("wikipedia");
+            $this->searchError_logs($e);
+            $_wiki=array();
+        }
+        try{
+            $_archive=$this->api->archive();
+            foreach ($_archive->response->docs as $doc){
+                if(isset($doc->description)){
+                    $snippet=$doc->description;
+                }else{
+                    $snippet="";
+                }
+                if(is_array($snippet)){
+                    $snippet=$snippet[0];
+                }
+                $output[]=(object) array(
+                    'link'      =>  "https://www.archive.org/details/".$doc->identifier,
+                    'title'     =>  $doc->title,
+                    'source'    =>  "Archive.org",
+                    'snippet'   =>  substr($snippet,0,250)."..."
+                );
+            }
+        }catch (apiException $e){
+            //throw new searchException("archive");
+            $this->searchError_logs($e);
+            $_archive=array();
         }
         return $output;
     }
 }
-

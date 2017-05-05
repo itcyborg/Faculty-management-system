@@ -47,12 +47,10 @@ if(isset($_POST['addattendance'])){
 }
 
 if(isset($_POST['attendancefill'])){
-    $url=$_SERVER['HTTP_REFERER'];
     $id=$_POST['id'];
     $regno=$_POST['regno'];
-    $pass=$_POST['pass'];
     include "function.php";
-    fillAttendance(array('id'=>$id,'regno'=>$regno,'pass'=>$pass,'url'=>$url));
+    fillAttendance(array('id'=>$id,'regno'=>$regno));
 }
 
 if(isset($_POST['addresource'])){
@@ -111,6 +109,7 @@ if(isset($_POST['addorganisation'])){
     include "function.php";
     registerOrganisation($array);
 }
+
 if(isset($_GET['report']) && isset($_GET['cat'])){
     $id=$_GET['id'];
     $url=$_SERVER['HTTP_REFERER'];
@@ -122,5 +121,21 @@ if(isset($_GET['report']) && isset($_GET['cat'])){
         header('location:'.$url);
     }catch (DBException $e){
         die($e);
+    }
+}
+
+if(isset($_POST['search'])){
+    require $_SERVER['DOCUMENT_ROOT']."/api/search.php";
+    $_search=new search();
+    $term=$_POST['term'];
+    $_result=$_search->all($term);
+    $count=sizeof($_result);
+    echo "<small><i>Showing $count results for : <u><b>$term</b></u></i></small>";
+    foreach ($_result as $item) {
+        $title=$item->title;
+        $link=$item->link;
+        $snippet=$item->snippet;
+        $source=$item->source;
+        echo "<h2><a href='$link' target='_blank'>$title</a></h2><br> Source:<small><i>$source</i></small><p>$snippet</p>";
     }
 }

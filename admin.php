@@ -19,6 +19,7 @@ if(isset($_GET['guests'])){
         echo $e;
     }
 }
-if(isset($_GET[''])){
-
+if(isset($_GET['forums'])){
+    require "functions/function.php";
+    var_dump(viewForums());
 }

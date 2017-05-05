@@ -14,3 +14,4 @@ RewriteRule   ^forums/(.+)$/  view.php?forums&id=$1   [L]
 
 RewriteRule   ^courses/(.+)$   view.php?courses&id=$1   [L]
 RewriteRule   ^courses/(.+)$/  view.php?courses&id=$1   [L]
+
