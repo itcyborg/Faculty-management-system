@@ -85,62 +85,106 @@ if($page=='attendaceid'){
     }
     echo $attendance.$form;
 }
-if(isset($_GET['organisation'])){
-    require "system/newdb.php";
+if($page=='organisations'){
+    echo "<a href='#addorganisation' onclick='getPage(\"constructor.php\",\"addorganisation\",\"main\")'>Add Organisation</a>";
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
-    if(isset($_GET['list'])) {
-        $sql = "SELECT * FROM organizations";
-        try{
-            $result=$db->get($sql)->fetchAll(PDO::FETCH_OBJ);
-            foreach ($result as $org){
-                echo "
-                <div>
-                    <h2><a href='view.php?organisation&id=".$org->ID."'>".$org->name."</a></h2><br>
-                    <small><small><i>".$org->slogan."</i></small></small>
-                    <p>".$org->description."</p>
-                </div>
-                ";
-            }
-        }catch (DBException $e){
-            echo $e;
-        }
-    }
-    if(isset($_GET['id'])){
-        $id=str_replace("-"," ",$_GET['id']);
-        $sql="SELECT * FROM studentorgs WHERE name='$id'";
-        try{
-            $result=$db->get($sql)->fetchAll(PDO::FETCH_OBJ);
-            $result=$result[0];
+    $sql = "SELECT * FROM organizations";
+    try{
+        $result=$db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+        foreach ($result as $org){
             echo "
             <div>
+                <h2><a href='#organisation".$org->ID."' onclick='getPages(\"constructor.php\",\"organisation\",\"main\",\"$org->name\")'>".$org->name."</a></h2><br>
+                <small><small><i>".$org->slogan."</i></small></small>
+                <p>".$org->description."</p>
+            </div>
+            ";
+        }
+    }catch (DBException $e){
+        echo $e;
+    }
+}
+if($page=='organisation') {
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
+    $db=new newdb();
+    $id = str_replace("-", " ", $id);
+    $sql = "SELECT * FROM studentorgs WHERE name='$id'";
+    try {
+        $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+        $result = $result[0];
+        echo "
+            <div>
                 <h2></h2>
-                <div style='width:70%;'>
-                    <h3>".$result->name."</h3>
-                    <p>".$result->description."</p>
+                <div>
+                    <h3>" . $result->name . "</h3>
+                    <p>" . $result->description . "</p>
                 </div>
             </div>
             ";
-        }catch (DBException $e){
-            echo $e;
-        }
+    } catch (DBException $e) {
+        echo $e;
     }
 }
-if(isset($_GET['courses'])){
-    if(isset($_GET['list'])){
-        $sql="SELECT * FROM courses";
-        include "system/newdb.php";
-        $db=new newdb();
-        try {
-            $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
-            foreach ($result as $item){
-                echo $item->CourseCode.":".$item->CourseName."<br>";
-            }
-        }catch (DBException $e){
+if($page=='addorganisation'){
+    echo '
+    <h3>Add organisation</h3>
+        <form id="addorganisation_form">
+            <input name="name" id="name" placeholder="Name" type="text"><br>
+            <input name="type" id="type" placeholder="Type" type="text"><br>
+            <input name="target" id="target" placeholder="Target" type="text"><br>
+            <input name="slogan" id="slogan" placeholder="Slogan" type="text"><br>
+            <input name="description" id="description" placeholder="Description" type="text"><br>
+            <input name="leader" id="leader" placeholder="Leader" type="text"><br>
+            <input type="submit" name="addorganisation">
+        </form>
+    	<script type=\'text/javascript\'>
+        $(\'#addorganisation_form\').submit(function (g) {
+            g.preventDefault();
+            var name=$(\'#name\').val();
+            var type=$(\'#type\').val();
+            var target=$(\'#target\').val();
+            var slogan=$(\'#slogan\').val();
+            var description=$(\'#description\').val();
+            var leader=$(\'#leader\').val();
+            $.ajax({
+                url :   \'../functions/constructor.php\',
+                data:{
+                    \'addorganisation\':1,
+                    \'name\':name,
+                    \'target\':target,
+                    \'type\':type,
+                    \'slogan\':slogan,
+                    \'description\':description,
+                    \'leader\':leader
+                },
+                type:   \'POST\',
+                beforeSend:function(){
+                },
+                success:function(data){
+                    alert(data);
+                    getPage(\'constructor.php\',\'organisations\',\'main\');
+                }
+            });
+        });</script>';
+}
+if($page=='courses'){
+    $sql="SELECT * FROM courses";
+    include $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
+    $db=new newdb();
+    try {
+        $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+        if(sizeof($result)<1){
+            echo "No courses found";
         }
+        foreach ($result as $item){
+            echo $item->CourseCode.":".$item->CourseName."<br>";
+        }
+    }catch (DBException $e){
     }
 }
-if(isset($_GET['resources'])){
-    require "system/newdb.php";
+if($page=='resources'){
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
     if(isset($_GET['id'])){
         $id=$_GET['id'];

@@ -90,7 +90,6 @@ if(isset($_POST['post'])){
 }
 
 if(isset($_POST['addorganisation'])){
-    $url=$_SERVER['HTTP_REFERER'];
     $name=$_POST['name'];
     $type=$_POST['type'];
     $target=$_POST['target'];
@@ -103,11 +102,10 @@ if(isset($_POST['addorganisation'])){
         'target'=>$target,
         'slogan'=>$slogan,
         'description'=>$description,
-        'leader'=>$leader,
-        'url'   => $url
+        'leader'=>$leader
     );
     include "function.php";
-    registerOrganisation($array);
+    echo registerOrganisation($array);
 }
 
 if(isset($_GET['report']) && isset($_GET['cat'])){

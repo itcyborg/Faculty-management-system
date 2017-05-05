@@ -264,11 +264,16 @@ function registerOrganisation($array){
     $leader=$array['leader'];
     $id="ORG".generateID();
     $sql="INSERT INTO organizations(name, type, target, slogan, description, leader, ID) VALUES ('$name','$type','$target','$slogan','$description','$leader','$id')";
+    $error=false;
     try{
         $result=$db->put($sql);
-        var_dump($result);
+        $error=false;
     }catch (DBException $e){
         var_dump($e->getMessage());
+        $error=true;
+    }
+    if(!$error){
+        return "success";
     }
 }
 
