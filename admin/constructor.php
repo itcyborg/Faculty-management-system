@@ -16,7 +16,6 @@ if (isset($_POST['page']) && isset($_POST['id'])){
     $page=$_POST['page'];
 }
 
-
 if($page==="forums"){
     require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
@@ -24,7 +23,7 @@ if($page==="forums"){
     $result=$db->get($sql);
     if($result->rowCount()>0) {
         while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-            $output .= "<a href='../view.php?forums=id&id=" . $row->Forum_ID . "' target='_#content'>" . $row->Topic . "</a>
+            $output .= "<a class='link' href='../view.php?forums=id&id=" . $row->Forum_ID . "' target='_#content'>" . $row->Topic . "</a>
                    <small><i><a href='../report.php?forum&id=" . $row->Forum_ID . "'>Report</a></i></small><br>";
         }
     }else{
@@ -184,25 +183,138 @@ if($page=='courses'){
     }
 }
 if($page=='resources'){
+    echo "<a href='#addresource' onclick=\"getPage('constructor.php','addresource','main')\">Add Resources</a><br><hr>";
     require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
     $db=new newdb();
-    if(isset($_GET['id'])){
-        $id=$_GET['id'];
-        $sql="SELECT * FROM resources WHERE ResourceID='$id'";
-        $result=$db->get($sql);
-        $rs=$result->fetchAll(PDO::FETCH_OBJ);
-        foreach ($rs as $r) {
-            $link=substr($r->URL,0);
-            $desc=$r->Description;
-            echo "<a href='$link'>".$r->Name."</a><br><p>$desc</p>";
-        }
-    }else{
-        $sql="SELECT * FROM resources";
-        $result=$db->get($sql);
-        $rs=$result->fetchAll(PDO::FETCH_OBJ);
-        foreach ($rs as $r) {
-            $link=substr($r->ResourceID,0);
-            echo "<a href='resources/$link'>".$r->Name."</a><br>";
-        }
+    $sql="SELECT * FROM resources";
+    $result=$db->get($sql);
+    $rs=$result->fetchAll(PDO::FETCH_OBJ);
+    foreach ($rs as $r) {
+        $link=substr($r->ResourceID,0);
+        echo "<a href='#resources$link' onclick=\"getPages('constructor.php','resourcesid','main','$link')\">".$r->Name."</a><br>";
+        echo "<p>$r->Description</p>";
     }
+}
+if($page=='resourcesid'){
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
+    $db=new newdb();
+    $sql="SELECT * FROM resources WHERE ResourceID='$id'";
+    $result=$db->get($sql);
+    $rs=$result->fetchAll(PDO::FETCH_OBJ);
+    foreach ($rs as $r) {
+        $link=substr($r->URL,0);
+        $desc=$r->Description;
+        echo "<a href='$link'>".$r->Name."</a><br><p>$desc</p>";
+    }
+}
+if($page=='addresource'){
+    echo '
+    <form id="addresourceform" method="post" action="functions/constructor.php" enctype="multipart/form-data">
+        <input id="deptid" type="text" name="deptid" placeholder="Department ID"><br>
+        <select name="type" id="type">
+            <option value="document">Document</option>
+            <option value="video">Video</option>
+            <option value="other">Other</option>
+        </select><br>
+        <input type="text" name="name" id="name" placeholder="Name"><br>
+        <input type="text" name="level" id="level" placeholder="Level"><br>
+        <input type="text" name="uploadedby" id="uploadedby" placeholder="Uploaded by"><br>
+        <textarea name="description" id="description" placeholder="Description"></textarea><br>
+        <input type="file" name="file" id="file"><br>
+        <input type="submit" value="Add Resource" name="addresource">
+    </form>
+    <script type=\'text/javascript\'>
+        $(\'#addresourceform\').submit(function (h) {
+            h.preventDefault();
+            var name=$(\'#name\').val();
+            var type=$(\'#type\').val();
+            var deptid=$(\'#deptid\').val();
+            var level=$(\'#level\').val();
+            var description=$(\'#description\').val();
+            var formdata=new FormData();
+            var file=$(\'#file\').files;
+            $.ajax({
+                url :   \'../functions/constructor.php\',
+                data:{
+                    \'addresource\':1,
+                    \'name\':name,
+                    \'type\':type,
+                    \'description\':description,
+                    \'file\':file
+                },
+                type:   \'POST\',
+                beforeSend:function(){
+                },
+                success:function(data){
+                alert(data);
+                    //getPage(\'constructor.php\',\'organisations\',\'main\');
+                }
+            });
+        });</script>
+    ';
+}
+if($page=='logs'){
+    if(file_exists($_SERVER['DOCUMENT_ROOT']."/logs/access_logs.log")){
+        echo "<a class='link' target='_blank' href='../logs/access_logs.log'>Access Logs</a><br>";
+    }
+    if(file_exists($_SERVER['DOCUMENT_ROOT']."/logs/error.log")){
+        echo "<a class='link' target='_blank' href='../logs/error.log'>Error Logs</a><br>";
+    }
+    if(file_exists($_SERVER['DOCUMENT_ROOT']."/logs/search_logs.fcts")){
+        echo "<a class='link' target='_blank' href='../logs/search_logs.fcts'>Search Logs</a><br>";
+    }
+    if(file_exists($_SERVER['DOCUMENT_ROOT']."/logs/searchError_logs.fct")){
+        echo "<a class='link' target='_blank' href='../logs/searchError_logs.fct'>Search Error Logs</a><br>";
+    }
+}
+if($page=="lecturers"){
+    require $_SERVER['DOCUMENT_ROOT']."/system/newdb.php";
+    $db=new newdb();
+    echo "<a class='link' href='#addlecturers' onclick=\"getPage('constructor.php','addlecturers','main')\">Add Lecturers</a>";
+}
+if($page=='addlecturers'){
+    $form='
+        <form id="addlecturers">
+            <input name="id" id="id" type="text" required placeholder="ID Number"><br>
+            <input name="name" id="name" type="text" required placeholder="Lecturer Name"><br>
+            <input name="dep" id="dep" type="text" required placeholder="Department"><br>
+            <input name="contact" id="contact" type="number" required placeholder="Phone Number"><br>
+            <input name="email" id="email" type="text" required placeholder="Email"><br><br>
+            <input name="password" id="password" type="password" required placeholder="Password"><br>
+            <button type="submit" value="register" name="register">register</button>
+        </form>';
+    $script="
+        <script>
+            $('#addlecturers').submit(function(a){
+                a.preventDefault();
+                var id=$('#id').val();
+                var name=$('#name').val();
+                var dep=$('#dep').val();
+                var contact=$('#contact').val();
+                var email=$('#email').val();
+                var pass=$('#password').val();
+                $.ajax({
+                    url:    '../functions/constructor.php',
+                    data:{
+                        'addlecturers':1,
+                        'id'    :   id,
+                        'name'  :   name,
+                        'dep'   :   dep,
+                        'contact':  contact,
+                        'email' :   email,
+                        'pass'  :   pass
+                    },
+                    type:'POST',
+                    beforeSend:function(){},
+                    success:function(data) {
+                        $('#main').html(data);
+                    }
+                });                
+            });
+        </script>
+    ";
+    echo $form.$script;
+}
+if($page=='viewlecturers'){
+
 }

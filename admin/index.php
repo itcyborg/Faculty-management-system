@@ -20,11 +20,13 @@
             <div class="navigation">
                 <ul>
                     <li><a href="index.php" class="active">Home</a></li>
+                    <li><a href="#lecturers" id="lecturers" onclick="getPage('constructor.php','lecturers','main')">Lecturers</a></li>
                     <li><a href="#forums" id="forums" onclick="getPage('constructor.php','forums','main')">Forums</a> </li>
                     <li><a href="#attendance" id="attendance" onclick="getPage('constructor.php','attendance','main')">Attendance</a> </li>
                     <li><a href="#organisations" id="organisations" onclick="getPage('constructor.php','organisations','main')">Organisations</a> </li>
                     <li><a href="#courses" id="courses" onclick="getPage('constructor.php','courses','main')">Courses</a></li>
                     <li><a href="#resources" id="resources" onclick="getPage('constructor.php','resources','main')">Resources</a></li>
+                    <li><a href="#logs" id="logs" onclick="getPage('constructor.php','logs','main')">logs</a></li>
                 </ul>
             </div>
         </div>
@@ -41,6 +43,7 @@
                 </div>
             </div>
             <div class="content" id="content">
+                <div class="status" id="status"></div>
                 <div class="main" id="main"></div>
             </div>
         </div>

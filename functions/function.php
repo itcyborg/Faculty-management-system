@@ -348,3 +348,23 @@ function generateTimetable($array){
     }
 }
 
+function addLecturer($array){
+    global $db;
+    $result="";
+    $id=$array['id'];
+    $name=$array['name'];
+    $dep=$array['dep'];
+    $contact=$array['contact'];
+    $email=$array['email'];
+    $pass=$array['pass'];
+    $sql = "INSERT INTO lecturers(lec_id,lec_name,department,contact,email,password) 
+	VALUES('$id','$name','$dep',$contact,'$email','$pass')";
+    try{
+        $db->put($sql);
+        $result="Success";
+    }catch (DBException $e){
+        $result=$e;
+    }
+    return $result;
+}
+

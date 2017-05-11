@@ -60,7 +60,7 @@
 }
 
 .navigation ul li{
-    height:60px;
+    height:45px;
     left:0;
     right:0;
     text-align: center;
@@ -71,7 +71,7 @@
     right:0;
     padding:10px 0 0 0;
     position: absolute;
-    height:60px;
+    height:45px;
     background-color: #593aab;
     color: whitesmoke;
     text-decoration: none;
@@ -145,11 +145,31 @@ button{
     padding:10px;
 }
 
-input[type=text ]{
+input[type=text ],input[type=file],input[type=password],input[type=number]{
     padding:10px;
     min-width:300px;
     margin:10px;
     color:black;
+}
+
+input[type=file]{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+option{
+    padding: 10px;
+}
+
+textarea,select{
+    padding:10px;
+    min-width:300px;
+    margin:10px;
+    color:black;
+}
+select{
+    min-width: 24.3em;
 }
 
 input[type=submit]{
@@ -169,4 +189,19 @@ input[type=submit]{
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+}
+
+.link{
+    display: block;
+    text-decoration: none;
+    color:white;
+    min-width:300px;
+    height:40px;
+    border-radius: 8px;
+    margin-top:10px;
+    padding:10px;
+    background-color: #593aab;
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
 }

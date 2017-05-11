@@ -5,38 +5,55 @@
  * Date: 4/27/2017
  * Time: 5:35 PM
  */
+
+/**
+ * TODO generate slots
+ * assign each day slots
+ * a slot is a duration of time
+ */
 $days=array('monday','tuesday','wednesday','thursday','friday');
-$venues=array('tb1','tb2','tb3','tb4','tb5');
-$periods=array('7-9','9-11','11-1','2-3','3-5');
-$units=array('ccs201','ccs203','ccs205','ccs207','ccs209','ccs211','ccs213');
+$periods=array('7-9AM','8-9AM','9-10AM','9-11AM','11-1PM','2-3PM','2-5PM','3-4PM','3-5PM');
 $slots=array();
 foreach ($days as $day) {
-    foreach ($venues as $venue) {
-        foreach ($periods as $period) {
-            if(!in_array($day.",".$venue.",".$period,$slots)){
-                $slots[]=$day.",".$venue.",".$period.allocate_classes($slots,$units);;
-            }
-        }
+    foreach ($periods as $period) {
+        $slots[]=array($day=>$period);
     }
 }
-function allocate_classes($slots,$units){
-    $allotment=array();
-    $count=0;
-    foreach ($slots as $slot) {
-        $sl=$units[mt_rand(0,sizeof($units)-1)];
-        if($count<1) {
-            $count++;
-            if (!in_array($sl, $allotment)) {
-                $allotment[$slot] = $sl;
-            }else{
-                $allotment[$slot] = $sl;
-            }
-        }else{
-            $count=0;
-        }
+$columns="";
+$data="";
+$a="";
+foreach ($days as $day) {
+    $a="";
+    foreach ($periods as $period) {
+        $a.="<td><select onchange='timetable(this)'>
+                    <option value=''>Select Slot</option>
+                    <option value='$day#$period'>Click to select</option>
+               </select></td>";
     }
-    return $allotment;
+    $data.="<tr><td>".strtoupper($day)."</td>$a</tr>";
 }
+foreach ($periods as $period) {
+   $columns.="<th>$period</th>";
+}
+echo "<table border='1'><thead><tr><th></th>$columns</tr></thead><tbody>$data</tbody></table>";
 
-var_dump($slots);
-
+?>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">
+    function timetable(th){
+        var unit=prompt("Enter Course code");
+        var slot=th['value'];
+        $.ajax({
+            url :   'functions/constructor.php',
+            type:   'POST',
+            data:   {
+                'timetable':1,
+                'slot'  :   slot,
+                'unit'  :   unit
+            },
+            success:function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>

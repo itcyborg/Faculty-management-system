@@ -137,3 +137,37 @@ if(isset($_POST['search'])){
         echo "<h2><a href='$link' target='_blank'>$title</a></h2><br> Source:<small><i>$source</i></small><p>$snippet</p>";
     }
 }
+
+if(isset($_POST['addlecturers'])){
+    echo "asda";
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $dep = $_POST['dep'];
+    $contact = $_POST['contact'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $array=array(
+        'id'    =>  $id,
+        'name'  =>  $name,
+        'dep'   =>  $dep,
+        'contact'=> $contact,
+        'email' =>  $email,
+        'pass'  =>  passhasH($pass)
+    );
+    include "function.php";
+    var_dump(addLecturer($array));
+}
+
+function passhasH($pass){
+    $salt1="#$%^&";
+    $salt2="_)(*";
+    return $secured=hash("ripemd128","$salt1$pass$salt2");
+}
+
+if(isset($_POST['timetable'])){
+    $slot=$_POST['slot'];
+    $unit=$_POST['unit'];
+    $slot=explode('#',$slot);
+    $array=array('day'=>$slot[0],'time'=>$slot[1],'unit'=>$unit);
+    var_dump($array);
+}
