@@ -67,26 +67,26 @@ $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
 <button id="save">Save</button>
 <hr>
 <?php
-$days=array('monday','tuesday','wednesday','thursday','friday');
-$periods=array('7-9AM','8-9AM','9-10AM','9-11AM','11-1PM','2-3PM','2-5PM','3-4PM','3-5PM');
-$slots=array();
+$days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday');
+$periods = array('7-9AM', '8-9AM', '9-10AM', '9-11AM', '11-1PM', '2-3PM', '2-5PM', '3-4PM', '3-5PM');
+$slots = array();
 foreach ($days as $day) {
     foreach ($periods as $period) {
-        $slots[]=array($day=>$period);
+        $slots[] = array($day => $period);
     }
 }
-$columns="";
-$data="";
-$a="";
+$columns = "";
+$data = "";
+$a = "";
 foreach ($days as $day) {
-    $a="";
+    $a = "";
     foreach ($periods as $period) {
         $a .= "<td id='$day|$period'><select onchange='timetable(this)'>
                     <option value=''>Select Slot</option>
                     <option value='$day|$period'>Click to select</option>
                </select></td>";
     }
-    $data.="<tr><td>".strtoupper($day)."</td>$a</tr>";
+    $data .= "<tr><td>" . strtoupper($day) . "</td>$a</tr>";
 }
 foreach ($periods as $period) {
     $columns .= "<th>$period</th>";
@@ -97,19 +97,19 @@ echo "<table border='1'><thead><tr><th></th>$columns</tr></thead><tbody>$data</t
 <button id="finish">Finish</button>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript">
-    function timetable(th){
-        var unit=prompt("Enter Course code");
-        var slot=th['value'];
+    function timetable(th) {
+        var unit = prompt("Enter Course code");
+        var slot = th['value'];
         var s = document.getElementById(slot);
         $.ajax({
-            url :   'functions/constructor.php',
-            type:   'POST',
-            data:   {
-                'timetable':1,
-                'slot'  :   slot,
-                'unit'  :   unit
+            url: 'functions/constructor.php',
+            type: 'POST',
+            data: {
+                'timetable': 1,
+                'slot': slot,
+                'unit': unit
             },
-            success:function (data) {
+            success: function (data) {
                 s.innerHTML = unit;
             }
         });

@@ -1,0 +1,294 @@
+#picture {
+    position: absolute;
+    right: -28%;
+    width: 50%;
+    height: 50%;
+    border-radius: 20%;
+}
+
+#search_sugg {
+    position: absolute;
+    left: 35%;
+    top: 100%;
+    background: rgb(0, 0, 255);
+    border: 1px solid blue;
+    width: 40%;
+    color: rgb(255, 255, 255);
+    font-size: 120%;
+}
+
+#logindiv {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    width: 60%;
+    height: 40%;
+    border: 1px solid rgb(0, 0, 255);
+    top: 20%;
+    border-radius: 15px;
+}
+
+#usernamelab, #passlab {
+    color: blue;
+    position: absolute;
+    font-size: 150%;
+    font-style: bold;
+    left: 31%;
+}
+
+#usernamelab {
+    top: 20%;
+}
+
+#passlab {
+    top: 50%;
+}
+
+#username {
+    position: absolute;
+    left: 45%;
+    top: 20%;
+}
+
+#pass {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+}
+
+#loginbut, #reset {
+    position: absolute;
+    top: 70%;
+    width: 12%;
+    background: rgb(4, 5, 100);
+    color: white;
+}
+
+#reset {
+    left: 45%;
+}
+
+#loginbut {
+    left: 58%;
+}
+
+#errordiv {
+    position: absolute;
+    top: 80%;
+    left: 35%;
+    color: rgb(255, 0, 0);
+}
+
+#header {
+    position: fixed;
+    height: 15%;
+    width: 98.5%;
+    background: rgb(12, 10, 150);
+    z-index: 1;
+    top: 0%;
+}
+
+#header > ol {
+    padding-left: 80%;
+    padding-top: 4%;
+}
+
+#header > ol > li {
+    display: inline-block;
+    color: rgb(255, 255, 255);
+    font-size: 150%;
+    position: relative;
+}
+
+#header > ol > li > ul {
+    position: absolute;
+    width: 270%;
+    cursor: pointer;
+    background: rgb(4, 5, 50);
+    left: -3%;
+    padding: 3px;
+}
+
+#header > ol > li > ul > li {
+    display: none;
+    border: 1px blue solid;
+    left: -4%;
+}
+
+#header > ol > li > ul > li:hover {
+    background: rgb(100, 10, 255);
+    color: rgb(255, 255, 255);
+}
+
+#header > ol > li:hover ul > li {
+    display: block;
+}
+
+#header > #search {
+    height: 23%;
+    width: 40%;
+    padding-left: -50%;
+    position: absolute;
+    left: 35%;
+    top: 70%;
+    border-radius: 5px 5px 5px 5px;
+}
+
+#nav {
+    position: fixed;
+    width: 20%;
+    height: 77%;
+    top: 16%;
+    background: rgb(12, 50, 150);
+}
+
+#nav > ol {
+    list-style-type: none;
+    position: absolute;
+    left: -15px;
+}
+
+#nav > ol > li {
+    border: 1px solid white;
+    left: -3px;
+    padding: 4%;
+    width: 97%;
+    color: rgb(255, 255, 255);
+    font-size: 130%;
+}
+
+#nav > ol > li:hover {
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 255);
+    cursor: pointer;
+}
+
+#content {
+    position: absolute;
+    top: 16%;
+    width: 76%;
+    left: 21%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: blue;
+    padding-left: 2%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+#footer {
+    position: fixed;
+    width: 98.5%;
+    height: 6%;
+    top: 94%;
+    background: rgb(4, 5, 50);
+}
+
+button {
+    background: rgb(4, 5, 100);
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+    height: 30px;
+    border: 1px rgb(4, 5, 100) solid;
+    font-size: 110%;
+    box-shadow: 1px 2px 3px blue;
+}
+
+input, select {
+    border-radius: 3px;
+    height: 28px;
+    border: 1px rgb(4, 5, 100) solid;
+    font-size: 110%;
+    box-shadow: 1px 2px 3px blue;
+}
+
+table {
+    box-shadow: 1px 2px 3px;
+}
+
+tr > #key {
+    padding: 2%;
+    border: 0.5px blue solid;
+    box-shadow: 1px 2px 3px blue;
+    font-size: 130%;
+    font-weight: 2px;
+}
+
+tr > :hover {
+    background: rgb(4, 5, 100);
+    color: rgb(255, 255, 255);
+}
+
+tr > #value {
+    padding: 2%;
+    border: 0.5px blue solid;
+    box-shadow: 1px 2px 3px blue;
+    width: 70%;
+    font-size: 130%;
+    font-weight: 2px;
+}
+
+tr > th {
+    width: 46%;
+    background: rgb(4, 5, 100);
+    color: rgb(255, 255, 255);
+}
+
+#operation_on_info {
+    position: fixed;
+    left: 86%;
+    top: 20%;
+}
+
+#individual_org {
+    background: rgb(0, 0, 0);
+    position: relative;
+    width: 70%;
+}
+
+#individual_org > h3 {
+    color: rgb(0, 0, 255);
+}
+
+#individual_org > i {
+    color: rgb(0, 255, 0);
+}
+
+#individual_org > p {
+    color: rgb(255, 255, 255);
+}
+
+#individual_sugg {
+    border: 1px blue solid;
+    box-shadow: 1px 2px 3px blue;
+    padding: 3%;
+    width: 75%;
+    position: relative;
+    background: rgb(0, 0, 0);
+}
+
+#new {
+    background: rgb(0, 0, 0);
+    position: fixed;
+    top: 67%;
+}
+
+#individual_sugg > h3 {
+    color: rgb(0, 0, 255);
+}
+
+#individual_sugg > b {
+    color: rgb(0, 255, 0);
+}
+
+#individual_sugg > i {
+    color: rgb(0, 255, 255);
+}
+
+#individual_sugg > p {
+    color: rgb(255, 255, 255);
+}
+
+#aspirant {
+    width: 29%;
+}

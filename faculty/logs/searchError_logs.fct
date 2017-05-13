@@ -1,0 +1,313 @@
+exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('da')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('da')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\index.php(35): search->all('hello')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('al')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('al')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('al')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('computer scienc...')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('computer scienc...')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(189): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(204): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(132): search->all('science')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('asd')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('as')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('as')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('da')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('da')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('computer scienc...')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('has')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('has')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('has')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('m')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('m')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('has')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('has')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('m')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(133): search->all('m')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(131): search->all('computer')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(131): search->all('computer')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(131): search->all('computer')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(131): search->all('computer')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('a')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('access')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('access')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('computer scienc...')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('computer scienc...')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('A')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('A')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('as')
+#2 {main}exception 'apiException' with message 'Encountered an error fetching results' in G:\PROJECTS\WEB\faculty\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\faculty\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\faculty\functions\constructor.php(129): search->all('as')
+#2 {main}

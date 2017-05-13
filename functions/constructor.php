@@ -1,4 +1,5 @@
 <?php
+session_start();
 /**
  * Created by PhpStorm.
  * User: itcyb
@@ -165,9 +166,20 @@ function passhasH($pass){
 }
 
 if(isset($_POST['timetable'])){
-    $slot=$_POST['slot'];
-    $unit=$_POST['unit'];
-    $slot=explode('#',$slot);
-    $array=array('day'=>$slot[0],'time'=>$slot[1],'unit'=>$unit);
-    var_dump($array);
+    if (isset($_SESSION['year']) && isset($_SESSION['sem']) && isset($_SESSION['course'])) {
+        $slot = $_POST['slot'];
+        $unit = $_POST['unit'];
+        $slot = explode('|', $slot);
+        $array = 'day => ' . $slot[0] . ', time => ' . $slot[1] . ', unit => ' . $unit;
+        if (stristr($_SESSION['tt'], $array)) {
+
+        } else {
+            if ($_SESSION['tt'] != "") {
+                $_SESSION['tt'] .= "|" . $array;
+            } else {
+                $_SESSION['tt'] .= $array;
+            }
+        }
+        echo $_SESSION['tt'];
+    }
 }

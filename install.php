@@ -11,7 +11,7 @@ $db = new newdb();
 $sql = "
 create table attendance
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	Dept_ID varchar(6) null,
 	Att_ID varchar(6) null,
@@ -46,7 +46,7 @@ create table course_outlines
 
 create table courses
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	CourseCode varchar(6) null,
 	CourseName varchar(254) null,
@@ -59,7 +59,7 @@ create table courses
 
 alter table course_outlines
 	add constraint course_outlines_ibfk_1
-		foreign key (course_id) references courses (CourseCode)
+		foreign key (course_id) references fine.courses (CourseCode)
 			on update cascade on delete cascade
 ;
 
@@ -96,6 +96,7 @@ create table forums
 	PostDate timestamp default CURRENT_TIMESTAMP not null,
 	Topic varchar(128) not null,
 	ThreadBy varchar(8) not null,
+	Flag int default '0' not null,
 	constraint forums_Topic_uindex
 		unique (Topic)
 )
@@ -103,7 +104,7 @@ create table forums
 
 create table guests
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	IP_Address varchar(16) not null,
 	Client_agent text null,
@@ -153,7 +154,7 @@ create table organizations
 
 create table posts
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	PostContent text not null,
 	PostBy varchar(8) not null,
@@ -161,7 +162,7 @@ create table posts
 	TimeStamp timestamp default CURRENT_TIMESTAMP null,
 	Flag int default '0' not null,
 	constraint posts_ibfk_1
-		foreign key (Forum_ID) references forums (Forum_ID)
+		foreign key (Forum_ID) references fine.forums (Forum_ID)
 			on update cascade on delete cascade
 )
 ;
@@ -172,7 +173,7 @@ create index Forum_ID
 
 create table resources
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	UploadedBy varchar(8) not null,
 	Type int not null,
@@ -196,7 +197,7 @@ create table results
 	lecturer_id varchar(15) not null,
 	sem varchar(6) not null,
 	year varchar(6) not null,
-	id int not null auto_increment
+	id int auto_increment
 		primary key,
 	grade varchar(4) not null,
 	result_type varchar(20) not null,
@@ -206,7 +207,7 @@ create table results
 
 create table search_history
 (
-	ID int not null auto_increment
+	ID int auto_increment
 		primary key,
 	Keyword text not null,
 	IP_address varchar(16) not null,
@@ -243,7 +244,7 @@ create table students
 
 create table suggestions
 (
-	id int not null auto_increment
+	id int auto_increment
 		primary key,
 	title varchar(60) not null,
 	suggestion text not null,
@@ -258,7 +259,7 @@ create table units
 (
 	course_id varchar(10) not null,
 	name varchar(60) not null,
-	id int not null auto_increment
+	id int auto_increment
 		primary key,
 	department_id int not null,
 	time timestamp default CURRENT_TIMESTAMP not null,
@@ -266,14 +267,14 @@ create table units
 	constraint units_course_id_uindex
 		unique (course_id),
 	constraint units_ibfk_1
-		foreign key (course_id) references courses (CourseCode)
+		foreign key (course_id) references fine.courses (CourseCode)
 			on update cascade on delete cascade
 )
 ;
 
 create table voting
 (
-	vote_id int not null auto_increment
+	vote_id int auto_increment
 		primary key,
 	voter varchar(15) null,
 	aspirant varchar(60) not null
@@ -313,6 +314,7 @@ SELECT
     student_leaders.Org_ID        AS Org_ID
   FROM (organizations
     LEFT JOIN student_leaders ON ((organizations.ID = student_leaders.Org_ID)));
+
 
 
 ";

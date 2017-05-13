@@ -41,7 +41,7 @@ class newdb
     public function __construct()
     {
         $this->dbuser = "root";
-        $this->dbname = "fine";
+        $this->dbname = "fms";
         $this->dbpass = "";
         $this->dbhost = "localhost";
         $this->queryString = "";

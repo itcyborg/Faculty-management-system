@@ -1,0 +1,17 @@
+RewriteEngine on
+
+RewriteRule   ^organisations/(.+)$   view.php?organisation&id=$1   [L]
+RewriteRule   ^organisations/(.+)$/  view.php?organisation&id=$1   [L]
+
+RewriteRule   ^resources/(.+)$   view.php?resources&id=$1   [L]
+RewriteRule   ^resources/(.+)$/  view.php?resources&id=$1   [L]
+
+RewriteRule   ^resources/   view.php?resources  [L]
+RewriteRule   ^resources   view.php?resources  [L]
+
+RewriteRule   ^forums/(.+)$   view.php?forums&id=$1   [L]
+RewriteRule   ^forums/(.+)$/  view.php?forums&id=$1   [L]
+
+RewriteRule   ^courses/(.+)$   view.php?courses&id=$1   [L]
+RewriteRule   ^courses/(.+)$/  view.php?courses&id=$1   [L]
+

@@ -1,0 +1,24 @@
+Api:example
+SELECT * FROM resources WHERE Name like '%example%' || ResourceID like '%example%' || Description like '%example%'
+SELECT * FROM news WHERE Title like '%example%' || Date like '%example%' || Content like '%example%'
+SELECT * FROM studentorgs WHERE name like '%example%' || type like '%example%' || target like '%example%' || slogan like '%example' || Description like '%example%'
+Api:example
+SELECT * FROM resources WHERE Name like '%example%' || ResourceID like '%example%' || Description like '%example%'
+SELECT * FROM news WHERE Title like '%example%' || Date like '%example%' || Content like '%example%'
+SELECT * FROM studentorgs WHERE name like '%example%' || type like '%example%' || target like '%example%' || slogan like '%example' || Description like '%example%'
+Api:example
+SELECT * FROM resources WHERE Name like '%example%' || ResourceID like '%example%' || Description like '%example%'
+SELECT * FROM news WHERE Title like '%example%' || Date like '%example%' || Content like '%example%'
+SELECT * FROM studentorgs WHERE name like '%example%' || type like '%example%' || target like '%example%' || slogan like '%example' || Description like '%example%'
+Api:asda
+SELECT * FROM resources WHERE Name like '%asda%' || ResourceID like '%asda%' || Description like '%asda%'
+SELECT * FROM news WHERE Title like '%asda%' || Date like '%asda%' || Content like '%asda%'
+SELECT * FROM studentorgs WHERE name like '%asda%' || type like '%asda%' || target like '%asda%' || slogan like '%asda' || Description like '%asda%'
+Api:automata
+SELECT * FROM resources WHERE Name like '%automata%' || ResourceID like '%automata%' || Description like '%automata%'
+SELECT * FROM news WHERE Title like '%automata%' || Date like '%automata%' || Content like '%automata%'
+SELECT * FROM studentorgs WHERE name like '%automata%' || type like '%automata%' || target like '%automata%' || slogan like '%automata' || Description like '%automata%'
+Api:a
+SELECT * FROM resources WHERE Name like '%a%' || ResourceID like '%a%' || Description like '%a%'
+SELECT * FROM news WHERE Title like '%a%' || Date like '%a%' || Content like '%a%'
+SELECT * FROM studentorgs WHERE name like '%a%' || type like '%a%' || target like '%a%' || slogan like '%a' || Description like '%a%'

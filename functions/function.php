@@ -290,14 +290,6 @@ function viewForums($flag=NULL){
     }
 }
 
-/**
- *
- * TODO get a list of all the units of that particular course
- * TODO get all the timeslots
- * TODO allocate all the units to their specific timeslot randomly until all the units have been allocated
- * TODO allocate all the lectures a day
- * TODO allocate all the lectures a venue
- */
 function generateTimetable($array){
     global $db;
     $sql="SELECT * FROM units";

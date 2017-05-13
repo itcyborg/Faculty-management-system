@@ -1,0 +1,17 @@
+apiException: Encountered an error fetching results in G:\PROJECTS\WEB\fms\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\fms\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\fms\functions\constructor.php(130): search->all('example')
+#2 {main}apiException: Encountered an error fetching results in G:\PROJECTS\WEB\fms\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\fms\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\fms\functions\constructor.php(130): search->all('example')
+#2 {main}apiException: Encountered an error fetching results in G:\PROJECTS\WEB\fms\api\api.php:41
+Stack trace:
+#0 G:\PROJECTS\WEB\fms\api\search.php(230): api->wiki()
+#1 G:\PROJECTS\WEB\fms\functions\constructor.php(130): search->all('example')
+#2 {main}apiException: Encountered an error fetching results in G:\PROJECTS\WEB\fms\api\api.php:53
+Stack trace:
+#0 G:\PROJECTS\WEB\fms\api\search.php(245): api->archive()
+#1 G:\PROJECTS\WEB\fms\functions\constructor.php(130): search->all('example')
+#2 {main}
