@@ -37,7 +37,10 @@ function setupuser(username, password) {
             } else {
                 if (this.responseText == "True") {
                     window.location = "index.php";
-                } else {
+                } else if (this.responseText == "Success") {
+                    window.location = "../lecturer/";
+                }
+                else {
                     errordiv.innerHTML = this.responseText;
                 }
             }

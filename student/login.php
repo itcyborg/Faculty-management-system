@@ -24,9 +24,6 @@ if (isset($_SESSION['userid']) && isset($_SESSION['password'])) {
             var black2 = Math.ceil(Math.random() * 10);
             document.body.setAttribute("style", "background:rgb(" + black + "," + black1 + "," + black2 + ")");
         }
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            alert(pos.coords.lattitude);
-        });
     </script>
     <noscript>
         Please turn on JavaScript to continue...Or upgrade your browser to either Ms Edge, Internet Explorer 11,Firefox

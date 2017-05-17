@@ -1,1 +1,0 @@
-day => monday, time => 7-9AM, unit => CCS 202|day => monday, time => 9-10AM, unit => CCS 207|day => monday, time => 11-1PM, unit => CCS 210

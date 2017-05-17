@@ -32,6 +32,7 @@ if ($page === "forums") {
     echo $output;
 }
 if ($page == 'attendance') {
+    echo "<a href='#addattendance' class='link' onclick='getPage(\"constructor.php\",\"addattendance\",\"main\")'>New Attendance</a><hr>";
     require $_SERVER['DOCUMENT_ROOT'] . "/system/newdb.php";
     $db = new newdb();
     $sql = "SELECT * FROM attendance";
@@ -42,6 +43,35 @@ if ($page == 'attendance') {
         $count++;
         echo $count . ". <a href='#attendace#" . $item->Att_ID . "' onclick=\"getPages('constructor.php','attendaceid','main','$item->Att_ID')\">$item->Att_ID</a><br>";
     }
+}
+if ($page == 'addattendance') {
+    $form = "<h3>Attendance</h3>
+    <form id='attfrm'>
+        <input type='text' name='deptid' id='deptid' placeholder='dept_id'><br>
+        <input type='text' name='course' id='course' placeholder='course Id'><br>
+        <input type='text' name='lecid' id='lecid' placeholder='Lecturer ID'><br>
+        <input type='submit' name='addattendance' value='Add Attendance'>
+    </form>
+    <script type='text/javascript'>
+        $('#attfrm').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url :   '../functions/constructor.php',
+                type:   'POST',
+                data:   {
+                    'addattendance':1,
+                    'lecid':$('#lecid').val(),
+                    'course':$('#course').val(),
+                    'deptid':$('#deptid').val()
+                },
+                success:function(data) {
+                  alert(data);
+                }
+            });
+        });
+    </script>
+    ";
+    echo $form;
 }
 if ($page == 'attendaceid') {
     require_once $_SERVER['DOCUMENT_ROOT'] . "/system/newdb.php";
@@ -170,17 +200,61 @@ if ($page == 'addorganisation') {
 if ($page == 'courses') {
     $sql = "SELECT * FROM courses";
     include $_SERVER['DOCUMENT_ROOT'] . "/system/newdb.php";
+    echo "<a href='#addcourse' class='link' onclick='getPage(\"constructor.php\",\"addcourses\",\"main\")'>Add Course</a><hr>";
     $db = new newdb();
     try {
         $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($result) < 1) {
             echo "No courses found";
         }
+        $thead = "<table><thead><tr><th>Course Code</th><th>Course Name</th></tr></thead><tbody>";
+        $tfoot = "</tbody></table>";
+        $row = "";
         foreach ($result as $item) {
-            echo $item->CourseCode . ":" . $item->CourseName . "<br>";
+            $row .= "<tr><td>$item->CourseCode</td><td>$item->CourseName</td></tr>";
         }
+        echo $thead . $row . $tfoot;
     } catch (DBException $e) {
     }
+}
+if ($page == 'addcourses') {
+    require $_SERVER['DOCUMENT_ROOT'] . "/system/newdb.php";
+    $db = new newdb();
+    echo "adding course";
+    $departments = "";
+    $lecs = "";
+    $sql = "SELECT * FROM departments";
+    $results = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+    foreach ($results as $result) {
+        $departments .= "<option value='$result->id'>$result->name</option>";
+    }
+    $form = "<form id='addcoursefrm'>
+        <input type='text' name='code' id='code' placeholder='Course code'><br>
+        <input type='text' name='name' id='name' placeholder='Course Name'><br>
+        <select>
+            <option id='department'>Select Department</option>
+            $departments
+        </select><br>
+        <input type='submit' name='addcourse' id='addcourse' value='Add Course'>
+    </form>
+    <script type='text/javascript'>
+        $('#addcoursefrm').submit(function(e) {
+          e.preventDefault();
+          $.ajax({
+            url:'../functions/constructor.php',
+            type:'POST',
+            data:{
+                'addcourse':1,
+                'code':$('#code').val(),
+                'name':$('#name').val(),
+                'department':$('#department').val()
+            },
+            success:function (data) {
+            }
+          });
+        });
+    </script>";
+    echo $form;
 }
 if ($page == 'resources') {
     echo "<a href='#addresource' onclick=\"getPage('constructor.php','addresource','main')\">Add Resources</a><br><hr>";
@@ -268,11 +342,8 @@ if ($page == 'logs') {
     }
 }
 if ($page == "lecturers") {
-    require $_SERVER['DOCUMENT_ROOT'] . "/system/newdb.php";
-    $db = new newdb();
     echo "<a class='link' href='#addlecturers' onclick=\"getPage('constructor.php','addlecturers','main')\">Add Lecturers</a>";
-    echo "<a class='link' href='#editlecturers' onclick=\"getPage('constructor.php','editlecturers','main')\">Edit/ Delete Lecturers</a>";
-    echo "<a class='link' href='#viewlecturers' onclick=\"getPage('constructor.php','viewlecturers','main')\">View Lecturers</a>";
+    echo "<a class='link' href='#viewlecturers' onclick=\"getPage('constructor.php','viewlecturers','main')\">View/Edit/Delete Lecturers</a>";
 }
 if ($page == 'addlecturers') {
     $form = '
@@ -282,7 +353,6 @@ if ($page == 'addlecturers') {
             <input name="dep" id="dep" type="text" required placeholder="Department"><br>
             <input name="contact" id="contact" type="number" required placeholder="Phone Number"><br>
             <input name="email" id="email" type="text" required placeholder="Email"><br><br>
-            <input name="password" id="password" type="password" required placeholder="Password"><br>
             <button type="submit" value="register" name="register">register</button>
         </form>';
     $script = "
@@ -294,7 +364,6 @@ if ($page == 'addlecturers') {
                 var dep=$('#dep').val();
                 var contact=$('#contact').val();
                 var email=$('#email').val();
-                var pass=$('#password').val();
                 $.ajax({
                     url:    '../functions/constructor.php',
                     data:{
@@ -303,21 +372,99 @@ if ($page == 'addlecturers') {
                         'name'  :   name,
                         'dep'   :   dep,
                         'contact':  contact,
-                        'email' :   email,
-                        'pass'  :   pass
+                        'email' :   email
                     },
                     type:'POST',
                     beforeSend:function(){},
                     success:function(data) {
                         $('#main').html(data);
                     }
-                });                
+                });
             });
         </script>
     ";
     echo $form . $script;
 }
 if ($page == 'viewlecturers') {
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    $results = viewLecturer();
+    $output = "";
+    if (sizeof($results) > 0) {
+        $rows = "";
+        foreach ($results as $result) {
+            $id = $result->lec_id;
+            $rows .= "<tr><td>$result->lec_id</td><td>$result->lec_name</td><td>$result->department</td><td>$result->email</td><td>$result->contact</td><td><select id='$id' onchange=\"doaction('$id')\"><option>Choose an option</option><option value='edit'>Edit</option><option value='delete'>Delete</option></select></td></tr>";
+        }
+        $thead = "<table class='table'>
+                <thead>
+                    <tr>
+                        <th>Lec_ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $rows
+                </tbody>
+            </table>";
+        $script = "<script type='text/javascript'>
+                function doaction(id){
+                    var action=$('#'+id).val();
+                    getPages('constructor.php','editlecturer','main',id);
+                }
+                </script>
+        ";
+        $output = $thead . $script;
+    }
+    echo $output;
+}
+if ($page == "editlecturer") {
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    $result = viewLecturer($id);
+    $form = " <form id='editlecs'>
+                <table>
+                    <tr><td>Lecturer ID</td><td><input id='id' type='text' value='$result->lec_id' locked></td></tr>
+                    <tr><td>Full Name</td><td><input id='name' type='text' value='$result->lec_name'></td></tr>
+                    <tr><td>Department</td><td><input id='department' type='text' value='$result->department'></td></tr>
+                    <tr><td>Email</td><td><input id='email' type='email' value='$result->email'></td></tr>
+                    <tr><td>Contact</td><td><input id='contact' type='number' value='$result->contact'></td></tr>
+                    <tr><td>Password</td><td></td></tr>
+                    <tr><td></td><td><button onclick=\"sub('delete')\">Delete</button><button onclick=\"sub('edit')\" style='float:right;'>Edit</button></td></tr>
+                </table>
+            </form>";
+    $script = "<script type='text/javascript'>
+        $('#editlecs').submit(function(ew){
+            ew.preventDefault();
+        });
+
+        function sub(action){
+            var id=$('#id').val();
+            var name=$('#name').val();
+            var department=$('#department').val();
+            var contact=$('#contact').val();
+            var email=$('#email').val();
+            $.ajax({
+                url     :   '../functions/constructor.php',
+                type    :   'POST',
+                data    :   {
+                    'action'    :   action,
+                    'editlecturers' :   1,
+                    'email' :   email,
+                    'name'  :   name,
+                    'id'    :   id,
+                    'contact':  contact,
+                    'department':   department
+                },
+                success:    function(data){
+                    alert(data);
+                }
+            });
+        }
+</script>";
+    echo $form . $script;
 }
 if ($page == 'timetable') {
     $list = scandir($_SERVER['DOCUMENT_ROOT'] . '/uploads/timetables', '1');
@@ -326,4 +473,136 @@ if ($page == 'timetable') {
             echo "<a target='_blank' href='../ptimetable.php?name=$item'>$item</a><br>";
         }
     }
+}
+if ($page == "students") {
+    echo "<a class='link' href='#AddStudents' onclick=\"getPage('constructor.php','addstudents','main')\">Add Students</a>";
+    echo "<a class='link' href='#ViewStudents' onclick=\"getPage('constructor.php','viewstudents','main')\">View Students</a>";
+}
+if ($page == "addstudents") {
+    $form = "<form id='studentform'>
+      <input type='text' id='adm' name='adm' placeholder='Admission Number'><br>
+      <input type='text' id='name' name='name' placeholder='Name'><br>
+      <input type='number' id='year' name='year' placeholder='Year'><br>
+      <input type='text' placeholder='Course' name='course' id='course'><br>
+      <input type='number' name='contact' placeholder='Contact' id='contact'><br>
+      <input type='email' placeholder='Email' name='email' id='email'><br>
+      <input type='submit' name='submit' value='Add'>
+    </form>";
+    $script = "
+    <script type='text/javascript'>
+      $('#studentform').submit(function(wer){
+          wer.preventDefault();
+          var adm=$('#adm').val();
+          var name=$('#name').val();
+          var year=$('#year').val();
+          var course=$('#course').val();
+          var contact=$('#contact').val();
+          var email=$('#email').val();
+          $.ajax({
+            url:    '../functions/constructor.php',
+            data:   {
+                'addstudent'    :   1,
+                'adm'           :   adm,
+                'year'          :   year,
+                'course'        :   course,
+                'contact'       :   contact,
+                'email'         :   email,
+                'name'          :   name
+            },
+            type:   'POST',
+            beforeSend: function(){
+                alert(0);
+            },
+            success :function(data){
+                alert(data);
+            }
+          });
+      });
+    </script>
+    ";
+    echo $form . $script;
+}
+if ($page == "viewstudents") {
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    $results = viewStudent();
+    if (sizeof($results) > 0) {
+        $rows = "";
+        foreach ($results as $result) {
+            $id = $result->adm_number;
+            $id = str_replace("/", '#', $id);
+            $rows .= "<tr><td>$result->adm_number</td><td>$result->name</td><td>$result->year</td><td>$result->email</td><td>$result->course</td><td>$result->contact</td><td><select id='$id' onchange=\"actiondo('$id')\"><option>Choose an option</option><option value='edit'>Edit</option><option value='delete'>Delete</option></select></td></tr>";
+        }
+        $thead = "<table class='table'>
+                <thead>
+                    <tr>
+                        <th>Admission Number</th>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Contact</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $rows
+                </tbody>
+            </table>";
+        $script = "<script type='text/javascript'>
+                function actiondo(id){
+                    var action=$('#'+id).val();
+                    getPages('constructor.php','editstudent','main',id);
+                }
+                </script>
+        ";
+        echo $thead . $script;
+    }
+}
+if ($page == "editstudent") {
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    $result = viewStudent(str_replace('#', '/', $id));
+    $form = " <form id='editstudent'>
+                <table>
+                    <tr><td>Admission Number</td><td><input id='id' type='text' value='$result->adm_number' locked></td></tr>
+                    <tr><td>Full Name</td><td><input id='name' type='text' value='$result->name'></td></tr>
+                    <tr><td>Year</td><td><input type='number' id='year' value='$result->year'></td></tr>
+                    <tr><td>Course</td><td><input id='course' type='text' value='$result->course'></td></tr>
+                    <tr><td>Email</td><td><input id='email' type='email' value='$result->email'></td></tr>
+                    <tr><td>Contact</td><td><input id='contact' type='number' value='$result->contact'></td></tr>
+                    <tr><td>Password</td><td></td></tr>
+                    <tr><td></td><td><button onclick=\"sub('delete')\">Delete</button><button onclick=\"sub('edit')\" style='float:right;'>Edit</button></td></tr>
+                </table>
+            </form>";
+    $script = "<script type='text/javascript'>
+        $('#editstudent').submit(function(ew){
+            ew.preventDefault();
+        });
+
+        function sub(action){
+            var id=$('#id').val();
+            var name=$('#name').val();
+            var course=$('#course').val();
+            var contact=$('#contact').val();
+            var email=$('#email').val();
+            var year=$('#year').val();
+            $.ajax({
+                url     :   '../functions/constructor.php',
+                type    :   'POST',
+                data    :   {
+                    'action'    :   action,
+                    'editstudent' :   1,
+                    'email' :   email,
+                    'name'  :   name,
+                    'id'    :   id,
+                    'contact':  contact,
+                    'course':   course,
+                    'year'  :   year
+                },
+                success:    function(data){
+                    alert(data);
+                }
+            });
+        }
+</script>";
+    echo $form . $script;
 }

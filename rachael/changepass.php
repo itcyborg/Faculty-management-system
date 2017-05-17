@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
         $confirm = hash("ripemd128", "$salt1$confirm$salt2");
         $connect = new PDO("mysql:host=localhost;dbname=fine", "root", "");
         $query = $connect->query("UPDATE `students` SET `password`='$confirm' WHERE  `adm_number`='$userid'");
-        header("Location: index.php");
+        header("Location: dashboard.php");
     } else {
         echo "change password not successful";
     }

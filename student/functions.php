@@ -1,24 +1,5 @@
 <?php
 session_start();
-function displayResults($userid)
-{
-    $db = new PDO("mysql:host=localhost;dbname=fine", "root", "");
-    $queryStudentResults = $db->query("SELECT `grade` FROM results WHERE `student_id`='$userid'");
-    $result2 = $queryStudentResults->fetch();
-    if ($result2[0] != "") {
-        $studentResults = json_decode($result2[0], true);
-        foreach ($studentResults as $key => $value) {
-            echo "<tr>";
-            echo "<td>", $key, "</td>";
-            echo "<td>", $value['unit_name'], "</td>";
-            echo "<td>", $value['grade'], "</td>";
-            echo "</tr>";
-        }
-    } else {
-        echo "No results found";
-    }
-}
-
 function organisations($userid, $name)
 {
     $db = new PDO("mysql:host=localhost;dbname=fine", "root", "");
@@ -170,18 +151,46 @@ if (isset($_POST['personal_info'])) {
 		</div>';
 }
 if (isset($_POST['results'])) {
-    echo '<div id="results">
-			<div id="operation_on_info">
-			</div>
-			<table border="1">
-				<tr>
-					<th width="30%">COURSE CODE</th>
-					<th width="50%">COURSE NAME</th>
-					<th width="30%">GRADE</th>
-				</tr>
-				' . displayResults($_SESSION["userid"]) . '
-			</table>
-		</div>';
+    $userid = $_SESSION['userid'];
+    $db = new PDO("mysql:host=localhost;dbname=fine", "root", "");
+    $queryStudentResults = $db->query("SELECT `grade` FROM results WHERE `student_id`='$userid'");
+    $result2 = $queryStudentResults->fetch();
+    if ($result2[0] != "") {
+        $studentResults = json_decode($result2[0], true);
+        echo '<div id="results">
+					<table border="1" style="width:100%">
+						<tr>
+							<th style="width:26%">COURSE CODE</th>
+							<th style="width:20%">COURSE NAME</th>
+							<th style="width:14%">GRADE</th>
+							<th style="width:40%">MORE DETAILS</th>
+						</tr>';
+        foreach ($studentResults as $key => $value) {
+            echo "<tr>";
+            echo "<td>", $key, "</td>";
+            echo "<td>", $value['unit_name'], "</td>";
+            echo "<td>", $value['grade'], "</td>";
+            echo "<td>",
+            "CAT SCORE:", "<b>", $value['cat_marks'], "/30</b>", "<br>",
+            "Exam score:", "<b>", $value['exam_marks'], "/70</b>", "<br>",
+            "Total score:", "<b>", $value['total_marks'], "</b>", "<br>",
+            "Comment:", "<b>", $value['comment'], "</b>", "<br>",
+            "Type of exam:", "<b>", $value['result_type'], "</b>", "<br>",
+            "Entered by:", "<b>", $value['lecturer_name'], "</b>", "<br>",
+            "Contact:0", "<b>", $value['lecturer_contact'], "</b>", "<br>",
+            "Date entered:", "<b>", $value['time'], "</b>", "<br>",
+            "</td>";
+            echo "</tr>";
+        }
+        echo "<style>
+						b{
+							color:blue;
+						}
+				  </style>";
+        echo '</table></div>';
+    } else {
+        echo "No results found";
+    }
 }
 if (isset($_POST['ils'])) {
     echo '<div id="ils">

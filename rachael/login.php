@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['userid']) && isset($_SESSION['password'])) {
-    header("Location: index.php");
+    header("Location: dashboard.php");
 }
 ?>
 <!DOCTYPE html>

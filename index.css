@@ -1,3 +1,7 @@
+html {
+    background: rgb(0, 0, 3);
+}
+
 #header {
     position: fixed;
     height: 20%;
@@ -7,7 +11,7 @@
     top: 0%;
 }
 
-h1 {
+h1, p, li {
     color: white;
 }
 
@@ -16,6 +20,14 @@ a {
     color: rgb(100, 200, 200);
     position: absolute;
     font-size: 120%;
+}
+
+h3, p, ol {
+    text-align: center;
+}
+
+h3 {
+    color: rgb(0, 0, 255);
 }
 
 a:hover {
@@ -36,6 +48,24 @@ a:hover {
     height: 50%;
     background: red;
     background: rgba(0, 4, 60, 200);
+    overflow: hidden;
+    stop-color: red;
+}
+
+#events:hover {
+    overflow: scroll;
+}
+
+#events ol {
+    list-style-type: none;
+    left: -10%;
+    text-align: left;
+}
+
+#events ol li:hover {
+    cursor: pointer;
+    background-color: orange;
+    width: 90%;
 }
 
 #news {
@@ -98,6 +128,7 @@ strong {
     top: 88%;
     border: 1px green solid;
     height: 60%;
+    background: rgb(0, 0, 0);
 }
 
 #footer {
@@ -106,6 +137,37 @@ strong {
     width: 98.5%;
     background: rgb(0, 0, 10);
     top: 168%;
+}
+
+#footer ol {
+    list-style-type: none;
+}
+
+#footer li a {
+    color: orange;
+    position: relative;
+    font-size: 87%;
+}
+
+#footer #ownership, #partnership, #charities, #privacy {
+    position: absolute;
+    width: 25%;
+}
+
+#ownership {
+    left: 0%;
+}
+
+#partnership {
+    left: 25%;
+}
+
+#charities {
+    left: 50%;
+}
+
+#privacy {
+    left: 75%;
 }
 
 #time {

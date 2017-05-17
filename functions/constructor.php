@@ -10,15 +10,13 @@ session_start();
 if(isset($_POST['addcourse'])){
     if(isset($_POST['department']) && isset($_POST['name']) && isset($_POST['code'])) {
         $code = $_POST['code'];
-        $url=$_SERVER['HTTP_REFERER'];
         $name = $_POST['name'];
         $department = $_POST['department'];
         include "function.php";
         $array=array(
             'code'=>$code,
             'name'=>$name,
-            'department'=>$department,
-            'url'   =>  $url
+            'department' => $department
         );
         addCourse($array);
     }else{
@@ -33,15 +31,13 @@ if(isset($_POST['forum'])){
 }
 
 if(isset($_POST['addattendance'])){
-    $url=$_SERVER['HTTP_REFERER'];
     $lecid=$_POST['lecid'];
     $courseid=$_POST['course'];
     $deptid=$_POST['deptid'];
     $array=array(
         'Dept_ID'   =>   $deptid,
         'Course_ID' =>   $courseid,
-        'LecID'     =>   $lecid,
-        'url'       =>   $url
+        'LecID' => $lecid
     );
     include "function.php";
     addAttendance($array);
@@ -140,29 +136,41 @@ if(isset($_POST['search'])){
 }
 
 if(isset($_POST['addlecturers'])){
-    echo "asda";
     $id = $_POST['id'];
     $name = $_POST['name'];
     $dep = $_POST['dep'];
     $contact = $_POST['contact'];
     $email = $_POST['email'];
-    $pass = $_POST['pass'];
     $array=array(
         'id'    =>  $id,
         'name'  =>  $name,
         'dep'   =>  $dep,
         'contact'=> $contact,
-        'email' =>  $email,
-        'pass'  =>  passhasH($pass)
+        'email' => $email
     );
     include "function.php";
     var_dump(addLecturer($array));
 }
 
-function passhasH($pass){
-    $salt1="#$%^&";
-    $salt2="_)(*";
-    return $secured=hash("ripemd128","$salt1$pass$salt2");
+if (isset($_POST['editlecturers'])) {
+    $action = $_POST['action'];
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $contact = $_POST['contact'];
+    $email = $_POST['email'];
+    $department = $_POST['department'];
+
+    $array = array(
+        'action' => $action,
+        'id' => $id,
+        'name' => $name,
+        'contact' => $contact,
+        'email' => $email,
+        'department' => $department
+    );
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    $_result = editLectuers($array);
+    echo $_result;
 }
 
 if(isset($_POST['timetable'])){
@@ -182,4 +190,55 @@ if(isset($_POST['timetable'])){
         }
         echo $_SESSION['tt'];
     }
+}
+
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
+    $ajax = false;
+    if (isset($_POST['synche'])) {
+        $ajax = true;
+    } else {
+        $ajax = false;
+    }
+    $array = array(
+        'email' => $email,
+        'password' => $pass,
+        'ajax' => $ajax
+    );
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    login($array);
+}
+
+if (isset($_POST['addstudent'])) {
+    $adm = $_POST['adm'];
+    $name = $_POST['name'];
+    $year = $_POST['year'];
+    $course = $_POST['course'];
+    $contact = $_POST['contact'];
+    $email = $_POST['email'];
+    $array = array(
+        'adm' => $adm,
+        'name' => $name,
+        'year' => $year,
+        'course' => $course,
+        'contact' => $contact,
+        'email' => $email
+    );
+    require $_SERVER['DOCUMENT_ROOT'] . "/functions/function.php";
+    addStudent($array);
+}
+
+if (isset($_POST['editstudent'])) {
+    $array = array(
+        'adm' => $_POST['id'],
+        'email' => $_POST['email'],
+        'name' => $_POST['name'],
+        'contact' => $_POST['contact'],
+        'course' => $_POST['course'],
+        'year' => $_POST['year']
+    );
+    require "function.php";
+    $response = editStudent($array);
+    echo $response;
 }

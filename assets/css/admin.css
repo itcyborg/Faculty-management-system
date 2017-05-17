@@ -145,7 +145,7 @@ button{
     padding:10px;
 }
 
-input[type=text ],input[type=file],input[type=password],input[type=number]{
+input[type=text ], input[type=file], input[type=password], input[type=number], input[type=email] {
     padding:10px;
     min-width:300px;
     margin:10px;
@@ -204,4 +204,29 @@ input[type=submit]{
     position:relative;
     text-align: center;
     vertical-align: middle;
+}
+
+table {
+    padding: 10px;
+    margin: 10px;
+}
+
+table td {
+    border-right: 1px solid rgba(0, 0, 0, 0.22);
+    padding: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+td select {
+    min-width: inherit;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: transparent;
+}
+
+td select option {
+    width: inherit;
+    border: transparent;
 }

@@ -9,279 +9,296 @@
 require "system/newdb.php";
 $db = new newdb();
 $sql = "
-create table attendance
+CREATE TABLE attendance
 (
-	ID int auto_increment
-		primary key,
-	Dept_ID varchar(6) null,
-	Att_ID varchar(6) null,
-	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
-	LecID varchar(6) null,
-	Attendance text null,
-	UnitID varchar(6) null,
-	constraint attendance_Att_ID_uindex
-		unique (Att_ID)
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	Dept_ID VARCHAR(6) NULL,
+	Att_ID VARCHAR(6) NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	LecID VARCHAR(6) NULL,
+	Attendance TEXT NULL,
+	UnitID VARCHAR(6) NULL,
+	CONSTRAINT attendance_Att_ID_uindex
+		UNIQUE (Att_ID)
+)
+;
+CREATE TABLE lecturers
+(
+  lec_id VARCHAR(12) NOT NULL PRIMARY KEY,
+  lec_name VARCHAR(30) NOT NULL,
+  department VARCHAR(40) NOT NULL,
+  contact INT,
+  email VARCHAR(60) NOT NULL,
+  password VARCHAR(30) NOT NULL,
+  units TEXT NULL
+)
+;
+CREATE TABLE lecturer_material
+(
+	lec_id VARCHAR(30) PRIMARY KEY,
+	resources TEXT NULL
 )
 ;
 
-create table comments
+CREATE TABLE comments
 (
-	suggestion_id int not null,
-	commentor varchar(40) not null,
-	comment varchar(200) not null,
-	time timestamp default CURRENT_TIMESTAMP not null,
-	constraint comment
-		unique (comment)
+	suggestion_id INT NOT NULL,
+	commentor VARCHAR(40) NOT NULL,
+	comment VARCHAR(200) NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT comment
+		UNIQUE (comment)
 )
 ;
 
-create table course_outlines
+CREATE TABLE course_outlines
 (
-	course_id varchar(100) not null
-		primary key,
-	course_topics varchar(100) not null,
-	lec_id int not null
+	course_id VARCHAR(100) NOT NULL
+		PRIMARY KEY,
+	course_topics VARCHAR(100) NOT NULL,
+	lec_id INT NOT NULL
 )
 ;
 
-create table courses
+CREATE TABLE courses
 (
-	ID int auto_increment
-		primary key,
-	CourseCode varchar(6) null,
-	CourseName varchar(254) null,
-	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
-	DepartmentID varchar(6) null,
-	constraint courses_CourseCode_uindex
-		unique (CourseCode)
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	CourseCode VARCHAR(6) NULL,
+	CourseName VARCHAR(254) NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	DepartmentID VARCHAR(6) NULL,
+	CONSTRAINT courses_CourseCode_uindex
+		UNIQUE (CourseCode)
 )
 ;
 
-alter table course_outlines
-	add constraint course_outlines_ibfk_1
-		foreign key (course_id) references fine.courses (CourseCode)
-			on update cascade on delete cascade
+ALTER TABLE course_outlines
+	ADD CONSTRAINT course_outlines_ibfk_1
+		FOREIGN KEY (course_id) REFERENCES fine.courses (CourseCode)
+			ON UPDATE CASCADE ON DELETE CASCADE
 ;
 
-create table departments
+CREATE TABLE departments
 (
-	id varchar(11) not null
-		primary key,
-	name varchar(100) not null,
-	head varchar(60) not null,
-	time timestamp default CURRENT_TIMESTAMP not null,
-	constraint name
-		unique (name),
-	constraint head
-		unique (head)
+	id VARCHAR(11) NOT NULL
+		PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	head VARCHAR(60) NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT name
+		UNIQUE (name),
+	CONSTRAINT head
+		UNIQUE (head)
 )
 ;
 
-create table events
+CREATE TABLE events
 (
-	event_name varchar(100) not null
-		primary key,
-	event_date varchar(30) not null,
-	event_venue varchar(30) not null,
-	event_organizer varchar(60) not null,
-	target_group varchar(100) not null,
-	event_theme varchar(100) not null
+	event_name VARCHAR(100) NOT NULL
+		PRIMARY KEY,
+	event_date VARCHAR(30) NOT NULL,
+	event_venue VARCHAR(30) NOT NULL,
+	event_organizer VARCHAR(60) NOT NULL,
+	target_group VARCHAR(100) NOT NULL,
+	event_theme VARCHAR(100) NOT NULL
 )
 ;
 
-create table forums
+CREATE TABLE forums
 (
-	Forum_ID varchar(8) not null
-		primary key,
-	PostDate timestamp default CURRENT_TIMESTAMP not null,
-	Topic varchar(128) not null,
-	ThreadBy varchar(8) not null,
-	Flag int default '0' not null,
-	constraint forums_Topic_uindex
-		unique (Topic)
+	Forum_ID VARCHAR(8) NOT NULL
+		PRIMARY KEY,
+	PostDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	Topic VARCHAR(128) NOT NULL,
+	ThreadBy VARCHAR(8) NOT NULL,
+	Flag INT DEFAULT '0' NOT NULL,
+	CONSTRAINT forums_Topic_uindex
+		UNIQUE (Topic)
 )
 ;
 
-create table guests
+CREATE TABLE guests
 (
-	ID int auto_increment
-		primary key,
-	IP_Address varchar(16) not null,
-	Client_agent text null,
-	TimeStamp timestamp default CURRENT_TIMESTAMP not null
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	IP_Address VARCHAR(16) NOT NULL,
+	Client_agent TEXT NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 )
 ;
 
-create table lecturers
+CREATE TABLE lecturers
 (
-	lec_id varchar(12) not null
-		primary key,
-	lec_name varchar(30) not null,
-	department varchar(10) not null,
-	contact int null,
-	email varchar(60) not null,
-	password varchar(30) not null
+	lec_id VARCHAR(12) NOT NULL
+		PRIMARY KEY,
+	lec_name VARCHAR(30) NOT NULL,
+	department VARCHAR(10) NOT NULL,
+	contact INT NULL,
+	email VARCHAR(60) NOT NULL,
+	password VARCHAR(30) NOT NULL
 )
 ;
 
-create index department
-	on lecturers (department)
+CREATE INDEX department
+	ON lecturers (department)
 ;
 
-create table news
+CREATE TABLE news
 (
-	title varchar(30) not null,
-	date timestamp default CURRENT_TIMESTAMP not null,
-	content text null
+	title VARCHAR(30) NOT NULL,
+	date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	content TEXT NULL
 )
 ;
 
-create table organizations
+CREATE TABLE organizations
 (
-	name varchar(100) not null,
-	type varchar(60) not null,
-	target varchar(60) not null,
-	slogan varchar(60) not null,
-	description text not null,
-	leader varchar(60) null,
-	time timestamp default CURRENT_TIMESTAMP not null,
-	ID varchar(8) not null
-		primary key,
-	constraint organizations_name_uindex
-		unique (name)
+	name VARCHAR(100) NOT NULL,
+	type VARCHAR(60) NOT NULL,
+	target VARCHAR(60) NOT NULL,
+	slogan VARCHAR(60) NOT NULL,
+	description TEXT NOT NULL,
+	leader VARCHAR(60) NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	ID VARCHAR(8) NOT NULL
+		PRIMARY KEY,
+	CONSTRAINT organizations_name_uindex
+		UNIQUE (name)
 )
 ;
 
-create table posts
+CREATE TABLE posts
 (
-	ID int auto_increment
-		primary key,
-	PostContent text not null,
-	PostBy varchar(8) not null,
-	Forum_ID varchar(8) not null,
-	TimeStamp timestamp default CURRENT_TIMESTAMP null,
-	Flag int default '0' not null,
-	constraint posts_ibfk_1
-		foreign key (Forum_ID) references fine.forums (Forum_ID)
-			on update cascade on delete cascade
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	PostContent TEXT NOT NULL,
+	PostBy VARCHAR(8) NOT NULL,
+	Forum_ID VARCHAR(8) NOT NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL,
+	Flag INT DEFAULT '0' NOT NULL,
+	CONSTRAINT posts_ibfk_1
+		FOREIGN KEY (Forum_ID) REFERENCES fine.forums (Forum_ID)
+			ON UPDATE CASCADE ON DELETE CASCADE
 )
 ;
 
-create index Forum_ID
-	on posts (Forum_ID)
+CREATE INDEX Forum_ID
+	ON posts (Forum_ID)
 ;
 
-create table resources
+CREATE TABLE resources
 (
-	ID int auto_increment
-		primary key,
-	UploadedBy varchar(8) not null,
-	Type int not null,
-	Name varchar(254) not null,
-	URL text null,
-	ResourceID varchar(6) not null,
-	TimeStamp timestamp default CURRENT_TIMESTAMP not null,
-	AccessLevel int not null,
-	Dept_ID varchar(6) not null,
-	Description text not null,
-	constraint resources_ResourceID_uindex
-		unique (ResourceID)
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	UploadedBy VARCHAR(8) NOT NULL,
+	Type INT NOT NULL,
+	Name VARCHAR(254) NOT NULL,
+	URL TEXT NULL,
+	ResourceID VARCHAR(6) NOT NULL,
+	TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	AccessLevel INT NOT NULL,
+	Dept_ID VARCHAR(6) NOT NULL,
+	Description TEXT NOT NULL,
+	CONSTRAINT resources_ResourceID_uindex
+		UNIQUE (ResourceID)
 )
 ;
 
-create table results
+CREATE TABLE results
 (
-	department_id int not null,
-	course_id int not null,
-	student_id varchar(15) not null,
-	lecturer_id varchar(15) not null,
-	sem varchar(6) not null,
-	year varchar(6) not null,
-	id int auto_increment
-		primary key,
-	grade varchar(4) not null,
-	result_type varchar(20) not null,
-	time timestamp default CURRENT_TIMESTAMP not null
+	department_id INT NOT NULL,
+	course_id INT NOT NULL,
+	student_id VARCHAR(15) NOT NULL,
+	lecturer_id VARCHAR(15) NOT NULL,
+	sem VARCHAR(6) NOT NULL,
+	year VARCHAR(6) NOT NULL,
+	id INT AUTO_INCREMENT
+		PRIMARY KEY,
+	grade VARCHAR(4) NOT NULL,
+	result_type VARCHAR(20) NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 )
 ;
 
-create table search_history
+CREATE TABLE search_history
 (
-	ID int auto_increment
-		primary key,
-	Keyword text not null,
-	IP_address varchar(16) not null,
-	Result_Selected text not null
+	ID INT AUTO_INCREMENT
+		PRIMARY KEY,
+	Keyword TEXT NOT NULL,
+	IP_address VARCHAR(16) NOT NULL,
+	Result_Selected TEXT NOT NULL
 )
 ;
 
-create table student_leaders
+CREATE TABLE student_leaders
 (
-	adm_number varchar(15) not null,
-	leader_name varchar(30) not null,
-	year_of_study varchar(6) not null,
-	leader_course varchar(100) not null,
-	leader_phone varchar(12) not null,
-	leader_email varchar(60) not null,
-	resignation varchar(20) not null,
-	period varchar(30) not null,
-	Org_ID varchar(8) not null
+	adm_number VARCHAR(15) NOT NULL,
+	leader_name VARCHAR(30) NOT NULL,
+	year_of_study VARCHAR(6) NOT NULL,
+	leader_course VARCHAR(100) NOT NULL,
+	leader_phone VARCHAR(12) NOT NULL,
+	leader_email VARCHAR(60) NOT NULL,
+	resignation VARCHAR(20) NOT NULL,
+	period VARCHAR(30) NOT NULL,
+	Org_ID VARCHAR(8) NOT NULL
 )
 ;
 
-create table students
+CREATE TABLE students
 (
-	adm_number varchar(15) not null
-		primary key,
-	name varchar(30) not null,
-	year varchar(6) not null,
-	course varchar(100) not null,
-	contact int null,
-	email varchar(60) not null,
-	password varchar(20) not null
+	adm_number VARCHAR(15) NOT NULL
+		PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	year VARCHAR(6) NOT NULL,
+	course VARCHAR(100) NOT NULL,
+	contact INT NULL,
+	email VARCHAR(60) NOT NULL,
+	password VARCHAR(20) NOT NULL
 )
 ;
 
-create table suggestions
+CREATE TABLE suggestions
 (
-	id int auto_increment
-		primary key,
-	title varchar(60) not null,
-	suggestion text not null,
-	owner varchar(60) null,
-	time timestamp default CURRENT_TIMESTAMP not null,
-	constraint title
-		unique (title)
+	id INT AUTO_INCREMENT
+		PRIMARY KEY,
+	title VARCHAR(60) NOT NULL,
+	suggestion TEXT NOT NULL,
+	owner VARCHAR(60) NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT title
+		UNIQUE (title)
 )
 ;
 
-create table units
+CREATE TABLE units
 (
-	course_id varchar(10) not null,
-	name varchar(60) not null,
-	id int auto_increment
-		primary key,
-	department_id int not null,
-	time timestamp default CURRENT_TIMESTAMP not null,
-	AllocatedTime int null,
-	constraint units_course_id_uindex
-		unique (course_id),
-	constraint units_ibfk_1
-		foreign key (course_id) references fine.courses (CourseCode)
-			on update cascade on delete cascade
+	course_id VARCHAR(10) NOT NULL,
+	name VARCHAR(60) NOT NULL,
+	id INT AUTO_INCREMENT
+		PRIMARY KEY,
+	department_id INT NOT NULL,
+	time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	AllocatedTime INT NULL,
+	CONSTRAINT units_course_id_uindex
+		UNIQUE (course_id),
+	CONSTRAINT units_ibfk_1
+		FOREIGN KEY (course_id) REFERENCES fine.courses (CourseCode)
+			ON UPDATE CASCADE ON DELETE CASCADE
 )
 ;
 
-create table voting
+CREATE TABLE voting
 (
-	vote_id int auto_increment
-		primary key,
-	voter varchar(15) null,
-	aspirant varchar(60) not null
+	vote_id INT AUTO_INCREMENT
+		PRIMARY KEY,
+	voter VARCHAR(15) NULL,
+	aspirant VARCHAR(60) NOT NULL
 )
 ;
 
-create view forumview as 
+CREATE VIEW forumview AS 
 SELECT
     forums.Forum_ID   AS Forum_ID,
     forums.PostDate   AS PostDate,
@@ -293,7 +310,7 @@ SELECT
   FROM (forums
     JOIN posts ON ((forums.Forum_ID = posts.Forum_ID)));
 
-create view studentorgs as 
+CREATE VIEW studentorgs AS 
 SELECT
     organizations.name            AS name,
     organizations.type            AS type,
@@ -319,9 +336,9 @@ SELECT
 
 ";
 
-try{
+try {
     $db->createTable($sql);
     echo "success creating tables";
-}catch (DBException $e){
+} catch (DBException $e) {
     //echo $e.',<br>';
 }

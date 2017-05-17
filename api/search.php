@@ -46,6 +46,117 @@ class search extends searchdb
      */
     private $api;
 
+    private $isadmin;
+
+    /**
+     * @param null $query
+     * @param null $array
+     * @return array
+     * @throws searchException
+     */
+    public function all($query = null, $array = null)
+    {
+        $this->api = new api($query);
+        $this->search_logs("Api:" . $query . "\n");
+        $_wiki = "";
+        $_archive = "";
+        $_resources = "";
+        $_news = "";
+        $_organisations = "";
+        $output = array();
+        try {
+            $_resources = $this->resources($query);
+            foreach ($_resources as $key => $value) {
+                $output[] = (object)array(
+                    'link' => "/resources/" . $value['ResourceID'],
+                    'title' => $value['Name'],
+                    'source' => "Local resource",
+                    'snippet' => substr($value['Description'], 0, 250) . "..."
+                );
+            }
+        } catch (Exception $e) {
+            throw new searchException("resources");
+        }
+        try {
+            $_news = $this->news($query);
+            foreach ($_news as $key => $value) {
+                $output[] = (object)array(
+                    'link' => $value['title'],
+                    'title' => $value['title'],
+                    'source' => $value['local news'],
+                    'snippet' => $value['date'] . "<br>" . substr($value['content'], 0, 250) . "...",
+                );
+            }
+        } catch (Exception $e) {
+            throw new searchException("news");
+        }
+
+        try {
+            $_organisations = $this->organisations($query);
+            foreach ($_organisations as $key => $value) {
+                $output[] = (object)array(
+                    'link' => "/organisations/" . str_replace(" ", "-", $value['name']),
+                    'title' => $value['name'],
+                    'source' => 'local organisations',
+                    'snippet' => "Type:<i>" . $value['type'] . "</i><br>Slogan: <i>" . $value['slogan'] . "</i><br>" . substr($value['description'], 0, 250) . "...",
+                );
+            }
+            $object[] = (object)$_organisations;
+        } catch (Exception $e) {
+            throw new searchException("organisations");
+        }
+        try {
+            $_wiki = $this->api->wiki();
+            foreach ($_wiki->query->search as $key => $value) {
+                $output[] = (object)array(
+                    'link' => "http://en.wikipedia.org/wiki/" . $value->title,
+                    'title' => $value->title,
+                    'source' => "Wikipedia.org",
+                    'snippet' => substr($value->snippet, 0, 200)
+                );
+            }
+        } catch (apiException $e) {
+            //throw new searchException("wikipedia");
+            $this->searchError_logs($e);
+            $_wiki = array();
+        }
+        try {
+            $_archive = $this->api->archive();
+            foreach ($_archive->response->docs as $doc) {
+                if (isset($doc->description)) {
+                    $snippet = $doc->description;
+                } else {
+                    $snippet = "";
+                }
+                if (is_array($snippet)) {
+                    $snippet = $snippet[0];
+                }
+                $output[] = (object)array(
+                    'link' => "https://www.archive.org/details/" . $doc->identifier,
+                    'title' => $doc->title,
+                    'source' => "Archive.org",
+                    'snippet' => substr($snippet, 0, 250) . "..."
+                );
+            }
+        } catch (apiException $e) {
+            //throw new searchException("archive");
+            $this->searchError_logs($e);
+            $_archive = array();
+        }
+        return $output;
+    }
+
+    /**
+     * @param $search
+     */
+    private function search_logs($search)
+    {
+        $file = fopen($_SERVER['DOCUMENT_ROOT'] . '/logs/search_logs.fcts', 'a');
+        fwrite($file, $search);
+        fclose($file);
+
+    }
+
     /**
      * @param null $query
      * @return array
@@ -161,109 +272,32 @@ class search extends searchdb
     }
 
     /**
-     * @param $search
+     * @return mixed
      */
-    private function search_logs($search){
-        $file=fopen($_SERVER['DOCUMENT_ROOT'].'/logs/search_logs.fcts','a');
-        fwrite($file,$search);
-        fclose($file);
-
+    public function getIsadmin()
+    {
+        return $this->isadmin;
     }
 
     /**
-     * @param null $query
-     * @param null $array
-     * @return array
-     * @throws searchException
+     * @param mixed $isadmin
      */
-    public function all($query=null, $array=null){
-        $this->api=new api($query);
-        $this->search_logs("Api:".$query."\n");
-        $_wiki="";
-        $_archive="";
-        $_resources="";
-        $_news="";
-        $_organisations="";
-        $output=array();
-        try{
-            $_resources=$this->resources($query);
-            foreach ($_resources as $key=>$value){
-                $output[]=(object) array(
-                    'link'      =>  "/resources/".$value['ResourceID'],
-                    'title'     =>  $value['Name'],
-                    'source'    =>  "Local resource",
-                    'snippet'   =>  substr($value['Description'],0,250)."..."
-                );
-            }
-        }catch (Exception $e){
-            throw new searchException("resources");
-        }
-        try{
-            $_news=$this->news($query);
-            foreach ($_news as $key=>$value){
-                $output[]=(object) array(
-                    'link'      =>  $value['title'],
-                    'title'     =>  $value['title'],
-                    'source'    =>  $value['local news'],
-                    'snippet'   =>  $value['date']."<br>".substr($value['content'],0,250)."...",
-                );
-            }
-        }catch (Exception $e){
-            throw new searchException("news");
-        }
-
-        try{
-            $_organisations=$this->organisations($query);
-            foreach ($_organisations as $key=>$value){
-                $output[]=(object) array(
-                    'link'      =>  "/organisations/".str_replace(" ","-",$value['name']),
-                    'title'     =>  $value['name'],
-                    'source'    =>  'local organisations',
-                    'snippet'   =>  "Type:<i>".$value['type']."</i><br>Slogan: <i>".$value['slogan']."</i><br>".substr($value['description'],0,250)."...",
-                );
-            }
-            $object[]=(object) $_organisations;
-        }catch (Exception $e){
-            throw new searchException("organisations");
-        }
-        try{
-            $_wiki=$this->api->wiki();
-            foreach ($_wiki->query->search as $key=>$value){
-                $output[]=(object) array(
-                    'link'      =>  "http://en.wikipedia.org/wiki/".$value->title,
-                    'title'     =>  $value->title,
-                    'source'    =>  "Wikipedia.org",
-                    'snippet'   =>  substr($value->snippet,0,200)
-                );
-            }
-        }catch (apiException $e){
-            //throw new searchException("wikipedia");
-            $this->searchError_logs($e);
-            $_wiki=array();
-        }
-        try{
-            $_archive=$this->api->archive();
-            foreach ($_archive->response->docs as $doc){
-                if(isset($doc->description)){
-                    $snippet=$doc->description;
-                }else{
-                    $snippet="";
-                }
-                if(is_array($snippet)){
-                    $snippet=$snippet[0];
-                }
-                $output[]=(object) array(
-                    'link'      =>  "https://www.archive.org/details/".$doc->identifier,
-                    'title'     =>  $doc->title,
-                    'source'    =>  "Archive.org",
-                    'snippet'   =>  substr($snippet,0,250)."..."
-                );
-            }
-        }catch (apiException $e){
-            //throw new searchException("archive");
-            $this->searchError_logs($e);
-            $_archive=array();
-        }
-        return $output;
+    public function setIsadmin($isadmin)
+    {
+        $this->isadmin = $isadmin;
     }
+
+    public function searchStudent($student = null)
+    {
+        if ($this->isadmin) {
+            $this->query = $student;
+            $sql = "SELECT * FROM fine.students WHERE adm_number LIKE '%$this->query%' || name LIKE '%$this->query%' || year LIKE '%$this->query%' || email LIKE '%$this->query%' || course LIKE '%$this->query%' || contact LIKE '%$this->query%'";
+            $_result = $this->get($sql);
+            $result = $_result->fetchAll(PDO::FETCH_OBJ);
+        } else {
+            throw new searchException("Access Denied. This feature is restricted to some users.");
+        }
+        return $result;
+    }
+
 }

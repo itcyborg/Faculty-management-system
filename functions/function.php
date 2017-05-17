@@ -18,7 +18,7 @@ function addCourse($array){
     $course_code=$array['code'];
     $course_name=$array['name'];
     $department=$array['department'];
-    $sql="INSERT INTO courses(CourseCode,CourseName,DepartmentID) VALUES ('".$course_code."','".$course_name."','".$department."') ON DUPLICATE SET CourseName='$course_name',DepartmentID='$department'";
+    $sql = "INSERT INTO courses(CourseCode,CourseName,DepartmentID) VALUES ('" . $course_code . "','" . $course_name . "','" . $department . "')";
     try{
         $result=$db->put($sql);
         var_dump($result);
@@ -277,6 +277,10 @@ function registerOrganisation($array){
     }
 }
 
+/**
+ * @param null $flag
+ * @return array
+ */
 function viewForums($flag=NULL){
     global $db;
     $sql="SELECT * FROM forums";
@@ -290,6 +294,9 @@ function viewForums($flag=NULL){
     }
 }
 
+/**
+ * @param $array
+ */
 function generateTimetable($array){
     global $db;
     $sql="SELECT * FROM units";
@@ -340,23 +347,208 @@ function generateTimetable($array){
     }
 }
 
+/**
+ * @param $array
+ * @return DBException|Exception|string
+ */
 function addLecturer($array){
     global $db;
+    $password = generateID() . generateID();
     $result="";
     $id=$array['id'];
     $name=$array['name'];
     $dep=$array['dep'];
     $contact=$array['contact'];
     $email=$array['email'];
-    $pass=$array['pass'];
-    $sql = "INSERT INTO lecturers(lec_id,lec_name,department,contact,email,password) 
-	VALUES('$id','$name','$dep',$contact,'$email','$pass')";
+    $pass = hashPass($password);
+    $sql = "INSERT INTO lecturers(lec_id,lec_name,department,contact,email,password) VALUES('$id','$name','$dep',$contact,'$email','$pass')";
     try{
         $db->put($sql);
         $result="Success";
     }catch (DBException $e){
         $result=$e;
     }
+    return $result . $password;
+}
+
+/**
+ * @param null $id
+ * @return array|mixed|string
+ */
+function viewLecturer($id = null)
+{
+    global $db;
+    $sql = "SELECT * FROM lecturers";
+    $result = "";
+    if ($id != null && $id != "") {
+        $sql .= " WHERE lec_id='$id' LIMIT 1";
+        $result = $db->get($sql)->fetch(PDO::FETCH_OBJ);
+    } else {
+        $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+    }
     return $result;
 }
 
+/**
+ * @param $array
+ * @return DBException|Exception|null|string
+ */
+function editLectuers($array)
+{
+    global $db;
+    $sql = "";
+    $name = $array['name'];
+    $id = $array['id'];
+    $department = $array['department'];
+    $contact = $array['contact'];
+    $email = $array['email'];
+    $result = null;
+    if ($array['action'] == "edit") {
+        $sql = "UPDATE lecturers SET lec_name='$name',department='$department',contact='$contact',email='$email' WHERE lec_id='$id'";
+        try {
+            $db->put($sql);
+            $result = "SUCCESS";
+        } catch (DBException $e) {
+            $result = $e;
+        }
+    } elseif ($array['action'] == "delete") {
+
+    }
+    return $result;
+}
+
+/**
+ *
+ */
+function sendMail()
+{
+    //require $_SERVER['DOCUMENT_ROOT']."/api/mailer.php";
+    require "../api/mailer.php";
+    $mail = new mailer();
+
+    //set the instances
+
+    $mail->setTo("test@gmail.com");
+    $mail->setFrom("admin@faculty.com");
+    $mail->setSubject("Account Creation");
+    $mail->setBody("hello there wecome");
+    $mail->sendMail();
+}
+
+/**
+ * @param $array
+ */
+function login($array)
+{
+    global $db;
+    $email = $array['email'];
+    $sql = "SELECT * FROM lecturers WHERE email='$email'";
+    $result = $db->get($sql);
+    $ajax = false;
+    if ($array['ajax'] == 1) $ajax = true;
+    $errors = true;
+    $url = '../staff/dashboard.php';
+    $msg = null;
+    if ($result->rowCount() > 0) {
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        $hash = $row->password;
+        if (verifyPass($array['password'], $hash)) {
+            $errors = false;
+            $msg = "success";
+        } else {
+            $errors = true;
+            $msg = "Error.Wrong login details/User does not exist.";
+        }
+    } else {
+        $errors = true;
+        $msg = "Error.Wrong login details/User does not exist.";
+    }
+    if (!$ajax) {
+        if (!$errors) {
+            header('location:' . $url);
+        } else {
+            echo $msg;
+        }
+    } else {
+        echo json_encode(array('error' => $errors, 'msg' => $msg, 'url' => $url));
+    }
+}
+
+/**
+ * @param $pass
+ * @return bool|string
+ */
+function hashPass($pass)
+{
+    $options = [
+        'cost' => 12
+    ];
+    return password_hash($pass, PASSWORD_DEFAULT, $options);
+}
+
+/**
+ * @param $pass
+ * @param $hash
+ * @return bool
+ */
+function verifyPass($pass, $hash)
+{
+    if (password_verify($pass, $hash)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function addStudent($array)
+{
+    global $db;
+    $password = generateID() . generateID();
+    $pass = hashPass($password);
+    $adm = $array['adm'];
+    $name = $array['name'];
+    $course = $array['course'];
+    $email = $array['email'];
+    $year = $array['year'];
+    $contact = $array['contact'];
+    $sql = "INSERT INTO fine.students(adm_number, name, year, course, contact, email, password) VALUES ('$adm','$name','$year','$course','$contact','$email','$pass')";
+    try {
+        $db->put($sql);
+        echo "Success";
+    } catch (DBException $e) {
+        die(var_dump($e));
+    }
+}
+
+function viewStudent($id = null)
+{
+    global $db;
+    $sql = "SELECT * FROM students";
+    $result = "";
+    if ($id != null && $id != "") {
+        $sql .= " WHERE adm_number='$id' LIMIT 1";
+        $result = $db->get($sql)->fetch(PDO::FETCH_OBJ);
+    } else {
+        $result = $db->get($sql)->fetchAll(PDO::FETCH_OBJ);
+    }
+    return $result;
+}
+
+function editStudent($array)
+{
+    global $db;
+    $adm = $array['adm'];
+    $email = $array['email'];
+    $name = $array['name'];
+    $contact = $array['contact'];
+    $course = $array['course'];
+    $year = $array['year'];
+    $sql = "UPDATE students SET name='$name',year='$year',course='$course',email='$email',contact='$contact' WHERE adm_number='$adm'";
+    try {
+        $db->put($sql);
+        return "success";
+    } catch (DBException $e) {
+        die($e);
+    }
+}

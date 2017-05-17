@@ -1,9 +1,0 @@
-A simple Assembly language program to add two numbers
-
-	ORG 0000H
-	MAIN
-	MOV R1,#1010
-	MOV A,#1000B
-	ADD A,R
-	SJMP MAIN
-	END

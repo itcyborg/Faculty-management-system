@@ -1,2 +1,0 @@
-[Sat May 13 08:55:37.661601 2017] [php7:warn] [pid 4992:tid 1968] [client 127.0.0.1:49794] PHP Warning:  fread(): Length parameter must be greater than 0 in G:\\PROJECTS\\WEB\\fms\\ptimetable.php on line 12, referer: http://fms.com/staff/
-[Sat May 13 09:15:20.243913 2017] [php7:crit] [pid 4992:tid 1960] [client 127.0.0.1:49882] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';' in G:\\PROJECTS\\WEB\\fms\\staff\\constructor.php on line 275, referer: http://fms.com/staff/
