@@ -1,9 +1,3 @@
-<?php
-//if($_SERVER['HTTPS']!='on'){
-//	echo "You need a secure connection";
-//	header("Location: http://faculty.com");
-//}
-//?>
 <!DOCTYPE html>
 <html>
 <head>
